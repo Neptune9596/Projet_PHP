@@ -1,0 +1,318 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", "Open Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  color: #343a40;
+  background-color: #f8f9fa;
+  line-height: 1.6;
+  margin-top: 80px;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0056b3;
+}
+
+h1,
+h2 {
+  font-family: Montserrat;
+  color: #34495e;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-left: 1em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  text-align: center;
+  color: #34495e;
+  margin-top: 40px;
+  font-size: 2em;
+}
+
+p {
+  font-family: Montserrat;
+  margin-bottom: 1em;
+  line-height: 1.7;
+}
+
+.navbar {
+  background-color: #1f1f23;
+  height: 80px;
+  padding: 15px 40px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-list {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 300;
+  transition: 0.2s;
+}
+
+.nav-link:hover {
+  color: #2a7bff;
+}
+
+.dropdown {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 35px;
+  left: -20px;
+  background: #2b2b2f;
+  padding: 8px 0;
+  border-radius: 5px;
+  list-style: none;
+  min-width: 180px;
+}
+
+.dropdown-menu li {
+  padding: 8px 20px;
+}
+
+.dropdown-link {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
+}
+
+.dropdown-link:hover {
+  color: #2a7bff;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.match-container {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  padding: 40px;
+  margin-top: 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.match-image {
+  flex: 0 0 40%;
+  max-width: 40%;
+}
+
+.match-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.match-content {
+  flex: 1;
+  padding-top: 10px;
+}
+
+.match-content h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #212529;
+}
+
+.match-content p {
+  line-height: 1.8;
+  color: #555;
+}
+
+table {
+  margin-left: 2.5em;
+  margin-right: 2.5em;
+  margin-bottom: 3em;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 95%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+td:first-child {
+  width: 1%;
+  white-space: nowrap;
+  padding-right: 15px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.table-joueurs {
+  width: 90%;
+  margin: 40px auto;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-joueurs th {
+  background: #1f1f23;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-size: 16px;
+}
+
+.table-joueurs td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.table-joueurs tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+.table-joueurs tr:hover {
+  background-color: #eef5ff;
+}
+
+.form-container {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 30px auto;
+  max-width: 450px;
+}
+
+.player-form {
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.player-form label {
+  font-weight: 600;
+  color: #34495e;
+}
+
+.player-form input,
+.player-form select {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.player-form input:focus,
+.player-form select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.player-form input[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+.player-form input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.player-form textarea {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.player-form textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.delete-form {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.delete-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #dc3545;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #b02a37;
+}
+
+.delete-button.disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
