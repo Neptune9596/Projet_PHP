@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS Commentaires (
     id_commentaire INT AUTO_INCREMENT PRIMARY KEY,
     id_joueur INT NOT NULL,
     contenu TEXT NOT NULL,
-    date_commentaire DATE DEFAULT CURRENT_DATE,
+    date_commentaire DATE NOT NULL DEFAULT CURRENT_DATE(),
 
     FOREIGN KEY (id_joueur) REFERENCES Joueur(id_joueur)
         ON DELETE CASCADE
