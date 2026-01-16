@@ -1,6 +1,7 @@
 <?php
     session_start();
     require "database.php";
+    $pdo = Database::getConnection();
     $email = $_POST['email'] ?? "";
     $mdp   = $_POST['mdp'] ?? "";
 
