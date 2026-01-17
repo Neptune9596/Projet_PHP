@@ -101,7 +101,7 @@ class Joueur {
         return $this->NumeroLicence;
     }
 
-    public function getDateNaisssance() : date{
+    public function getDateNaisssance() : string {
         return $this->DateNaissance;
     }
 
