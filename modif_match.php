@@ -15,6 +15,17 @@ $id = $_GET['id_match'];
 Partie::setPdo($pdo);
 $match = Partie::getMatchById($id);
 
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $match->setDateMatch($_POST['date_match']);
+    $match->setHeureMatch($_POST['heure']);
+    $match->setNomAdversaire($_POST['nom_adversaire']);
+    $match->setLieuDeRencontre($_POST['lieu_rencontre']);
+    $match->setAdresse($_POST['adresse']);
+    $match->setResultat($_POST['resultat']);
+    header("Location: liste_match.php");
+    exit();
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -62,7 +73,7 @@ $match = Partie::getMatchById($id);
 
 <div class="form-container">
 
-<form class="player-form" method="post" action="liste_match.php?id_match=<?= $id_match ?>">
+<form class="player-form" method="post" action="modif_match.php?id_match=<?= $match->getId() ?>">
     <label>Date du match :</label>
     <input type="date" name="date_match" value="<?= htmlspecialchars($match->getDate()) ?>" required>
     <label>Heure du match :</label>
