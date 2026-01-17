@@ -1,11 +1,11 @@
 <?php
+    session_start();
     require "database.php";
     $pdo = Database::getConnection();
-    session_start();
-    if (!isset($_SESSION["user_id"])) {
-        header("Location: login.php");
+    if (!isset($_SESSION["email"])) {
+    header("Location: login.php");
     exit();
-    }
+}      
 
     $joueurs = $pdo->query("SELECT * FROM joueur")->fetchAll(PDO::FETCH_ASSOC);
 ?>

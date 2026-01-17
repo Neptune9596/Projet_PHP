@@ -1,11 +1,12 @@
-<?php
+<?php   
+session_start();
 require "database.php";
 $pdo = Database::getConnection();
-session_start();
-if (!isset($_SESSION["user_id"])) {
+if (!isset($_SESSION["email"])) {
     header("Location: login.php");
     exit();
 }
+
 if (!isset($_GET["id_match"])) {
     exit("Aucun match sélectionné.");
 }

@@ -13,7 +13,6 @@
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($user) {
-            $_SESSION["user_id"] = $user["id"];
             $_SESSION["email"] = $user["email"];
 
             header("Location: accueil.php");

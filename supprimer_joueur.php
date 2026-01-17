@@ -1,11 +1,11 @@
 <?php
+  session_start();
   require "database.php";
   $pdo = Database::getConnection();
-  session_start();
-  if (!isset($_SESSION["user_id"])) {
-      header("Location: login.php");
-  exit();
-  }
+  if (!isset($_SESSION["email"])) {
+    header("Location: login.php");
+    exit();
+}
   if (!isset($_POST["licence"])) {
       exit("Erreur : aucune licence reçue.");
   }

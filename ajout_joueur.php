@@ -1,12 +1,11 @@
 <?php
+    session_start();
     require "database.php";
     $pdo = Database::getConnection();
-    session_start();
-
-    if (!isset($_SESSION["user_id"])) {
-        header("Location: login.php");
+    if (!isset($_SESSION["email"])) {
+    header("Location: login.php");
     exit();
-    }
+}
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $sql = "INSERT INTO Joueur (Nom, Prenom, Numero_licence, Date_naissance, Taille, Poids, Statut)
