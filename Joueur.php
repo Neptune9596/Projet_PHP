@@ -89,88 +89,31 @@ class Joueur {
         $this->Poids = $poids;
     }
 
-    public function getNom(): string {
-        $stmt = self::$pdo->prepare("SELECT nom FROM joueur WHERE id_joueur = ?");
-        $stmt->execute([$this->IdJoueur]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($data) {
-            $this->Nom = $data['nom'];
-            return $data['nom'];
-        }
-        throw new Exception("Nom introuvable pour le joueur ID {$this->IdJoueur}");
+    public function getNom() : string {
+        return $this->Nom;
     }
 
-    public function getPrenom(): string {
-        $stmt = self::$pdo->prepare("SELECT prenom FROM joueur WHERE id_joueur = ?");
-        $stmt->execute([$this->IdJoueur]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($data) {
-            $this->Prenom = $data['prenom'];
-            return $data['prenom'];
-        }
-        throw new Exception("Prénom introuvable pour le joueur ID {$this->IdJoueur}");
+    public function getPrenom() : string {
+        return $this->Prenom;
     }
 
-    public function getNumeroLicence(): int {
-        $stmt = self::$pdo->prepare("SELECT numero_licence FROM joueur WHERE id_joueur = ?");
-        $stmt->execute([$this->IdJoueur]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($data) {
-            $this->NumeroLicence = $data['numero_licence'];
-            return $data['numero_licence'];
-        }
-        throw new Exception("Numéro de licence introuvable pour le joueur ID {$this->IdJoueur}");
+    public function getNumeroLicence() : int {
+        return $this->NumeroLicence;
     }
 
-    public function getDateNaissance(): string {
-        $stmt = self::$pdo->prepare("SELECT date_naissance FROM joueur WHERE id_joueur = ?");
-        $stmt->execute([$this->IdJoueur]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($data) {
-            $this->DateNaissance = $data['date_naissance'];
-            return $data['date_naissance'];
-        }
-        throw new Exception("Date de naissance introuvable pour le joueur ID {$this->IdJoueur}");
+    public function getDateNaisssance() : date{
+        return $this->DateNaissance;
     }
 
-    public function getTaille(): int {
-        $stmt = self::$pdo->prepare("SELECT taille FROM joueur WHERE id_joueur = ?");
-        $stmt->execute([$this->IdJoueur]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($data) {
-            $this->Taille = $data['taille'];
-            return $data['taille'];
-        }
-        throw new Exception("Taille introuvable pour le joueur ID {$this->IdJoueur}");
+    public function getTaille() : int {
+        return $this->Taille;
     }
 
-    public function getPoids(): int {
-        $stmt = self::$pdo->prepare("SELECT poids FROM joueur WHERE id_joueur = ?");
-        $stmt->execute([$this->IdJoueur]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($data) {
-            $this->Poids = $data['poids'];
-            return $data['poids'];
-        }
-        throw new Exception("Poids introuvable pour le joueur ID {$this->IdJoueur}");
+    public function getPoids() : int {
+        return $this->Poids;
     }
-
-    public function getStatut(): string {
-        $stmt = self::$pdo->prepare("SELECT statut FROM joueur WHERE id_joueur = ?");
-        $stmt->execute([$this->IdJoueur]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($data) {
-            $this->Statut = $data['statut'];
-            return $data['statut'];
-        }
-        throw new Exception("Statut introuvable pour le joueur ID {$this->IdJoueur}");
+    public function getStatut(){
+        return $this->Statut;
     }
 
     public static function create($nom, $prenom, $numeroLicence, $dateNaissance, $taille, $poids, $statut): void {
