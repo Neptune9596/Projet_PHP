@@ -12,6 +12,7 @@ if (!isset($_GET["id_match"])) {
     exit("Erreur, ce match n'existe pas.");
 }
 $id = $_GET['id_match'];
+Partie::setPdo($pdo);
 $match = Partie::getMatchById($id);
 
 
