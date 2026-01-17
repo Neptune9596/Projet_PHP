@@ -6,21 +6,25 @@
     $mdp   = $_POST['mdp'] ?? "";
 
     $erreurlogin = "";
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if ($email !== "" && $mdp !== "") {
+            $stmt = $pdo->prepare("SELECT * FROM coach WHERE email = ? AND mdp = ?");
+            $stmt->execute([$email, $mdp]);
 
-    if ($email !== "" && $mdp !== "") {
-        $stmt = $pdo->prepare("SELECT * FROM coach WHERE email = ? AND mdp = ?");
-        $stmt->execute([$email, $mdp]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($user) {
+                $_SESSION["user_id"] = $user["id"];
+                $_SESSION["email"] = $user["email"];
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($user) {
-            $_SESSION["user_id"] = $user["id"];
-            $_SESSION["email"] = $user["email"];
-
-            header("Location: accueil.php");
-            exit();
+                header("Location: accueil.php");
+                exit();
+            }
+            else {
+                $erreurlogin = "Les identifiants que vous avez fournis sont incorrects.";
+            }
         }
         else {
-            $erreurlogin = "Les identifiants que vous avez fournis sont incorrects.";
+            $erreurlogin = "Veuillez remplir tous les champs.";
         }
     }
 ?>
@@ -42,7 +46,7 @@
 </header>
     <h1>Bienvenue sur la page de connexion</h1>
     <div class="form-container">
-        <form class="login-form" method="post" action="">
+        <form class="login-form" method="POST" action="">
             <?php
             if ($erreurlogin !== "") {
                 echo "<p class='error-message'>$erreurlogin</p>";
