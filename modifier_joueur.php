@@ -79,16 +79,17 @@
 <div class="form-container">
 <form class="player-form" method="post" action="modifier_joueur.php?licence=<?= $joueur['numero_licence'] ?>">
     <label>Nom :</label>
-    <input type="text" name="nom" value="<?= htmlspecialchars($joueur['nom']) ?>" required>
+    <input type="text" name="nom" value="<?= htmlspecialchars($joueur->getNom()) ?>" required>
     <label>Prénom :</label>
-    <input type="text" name="prenom" value="<?= htmlspecialchars($joueur['prenom']) ?>" required>
-    <input type="hidden" name="licence" value="<?= $joueur['numero_licence'] ?>">
+    <input type="text" name="prenom" value="<?= htmlspecialchars($joueur->getPrenom()) ?>" required>
+    <label>Numéro de licence :</label>
+    <input type="number" name="licence" value="<?= htmlspecialchars($joueur->getNumeroLicence()) ?>">
     <label>Date de naissance :</label>
-    <input type="date" name="naissance" value="<?= $joueur['date_naissance'] ?>" required>
+    <input type="date" name="naissance" value="<?= htmlspecialchars($joueur->getDateNaisssance()) ?>" required>
     <label>Taille (cm) :</label>
-    <input type="number" name="taille" value="<?= $joueur['taille'] ?>">
+    <input type="number" name="taille" value="<?= htmlspecialchars($joueur->getTaille()) ?>">
     <label>Poids (kg) :</label>
-    <input type="number" name="poids" value="<?= $joueur['poids'] ?>">
+    <input type="number" name="poids" value="<?= htmlspecialchars($joueur->getPoids()) ?>">
     <label>Statut :</label>
     <select name="statut">
         <option value="">-- Sélectionner un statut --</option>
@@ -97,15 +98,13 @@
         <option value="suspendu"  <?= $joueur['statut']=="suspendu" ? "selected" : "" ?>>Suspendu</option>
         <option value="absent"    <?= $joueur['statut']=="absent" ? "selected" : "" ?>>Absent</option>
     </select>
-    <label>Nombre de matchs joués :</label>
-    <input type="number" value="<?= $nb_matchs ?>" readonly>
-    <input type="submit" value="Enregistrer" action="liste_joueur.php" method="post">
+    <input type="submit" value="Enregistrer les modifications">
 </form>
 <form method="post" action="modifier_joueur.php?id_joueur=<?= $joueur->getId() ?>" class="delete-form">
         <input type="hidden" name="action" value="delete">
         <input type="submit" class="delete-bouton" value="Supprimer le joueur"
                onclick="return confirm('Attention : Cette action est irréversible. Confirmer ?')">
-    </form>
+</form>
 </div>
 </body>
 </html>

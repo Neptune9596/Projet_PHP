@@ -76,7 +76,7 @@
     <form class="player-form" action="ajout_joueur.php" method="post">
         <label>Nom :</label> <input type="text" name="nom" required>
         <label>Prénom :</label> <input type="text" name="prenom" required>
-        <label>Numéro de licence :</label> <input type="text" name="licence" required>
+        <label>Numéro de licence :</label> <input type="number" name="licence" required>
         <label>Date de naissance :</label> <input type="date" name="naissance" required>
         <label>Taille (cm) :</label> <input type="number" name="taille">
         <label>Poids (kg) :</label> <input type="number" name="poids" min="0">
