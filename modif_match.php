@@ -1,6 +1,7 @@
 <?php   
 session_start();
 require "database.php";
+require "Partie.php";
 $pdo = Database::getConnection();
 if (!isset($_SESSION["email"])) {
     header("Location: login.php");
@@ -8,33 +9,11 @@ if (!isset($_SESSION["email"])) {
 }
 
 if (!isset($_GET["id_match"])) {
-    exit("Aucun match sélectionné.");
+    exit("Erreur, ce match n'existe pas.");
 }
-$id_match = intval($_GET["id_match"]);
-$stmt = $pdo->prepare("SELECT * FROM matchs WHERE id_match = ?");
-$stmt->execute([$id_match]);
-$match = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$match) {
-    exit("Match introuvable.");
-}
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $sql = "UPDATE matchs
-            SET date_match = ?, heure = ?, nom_adversaire = ?, adresse = ?, lieu_rencontre = ?, resultat = ?
-            WHERE id_match = ?";
+$id = $_GET['id_match'];
+$match = Partie::getMatchById($id);
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        $_POST["date_match"],
-        $_POST["heure"],
-        $_POST["nom_adversaire"],
-        $_POST["adresse"],
-        $_POST["lieu_rencontre"],
-        $_POST["resultat"],
-        $id_match
-    ]);
-    header("Location: modif_match.php");
-    exit();
-}
 
 ?>
 <!DOCTYPE html>
@@ -84,17 +63,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <form class="player-form" method="post" action="liste_match.php?id_match=<?= $id_match ?>">
     <label>Date du match :</label>
-    <input type="date" name="date_match" value="<?= $match['date_match'] ?>" required>
+    <input type="date" name="date_match" value="<?= htmlspecialchars($match->getDate()) ?>" required>
     <label>Heure du match :</label>
-    <input type="time" name="heure" value="<?= $match['heure'] ?>" required> 
+    <input type="time" name="heure" value="<?= htmlspecialchars($match->getHeure()) ?>" required> 
     <label>Nom de l'adversaire :</label>
-    <input type="text" name="nom_adversaire" value="<?= $match['nom_adversaire'] ?>" required>
+    <input type="text" name="nom_adversaire" value="<?= htmlspecialchars($match->getNomAdv()) ?>" required>
     <label>Lieu de la rencontre :</label>
-    <input type="text" name="lieu_rencontre" value="<?= $match['lieu_rencontre'] ?>">
+    <input type="text" name="lieu_rencontre" value="<?= htmlspecialchars($match->getLieu()) ?>">
     <label>Adresse :</label>
-    <input type="text" name="adresse" value="<?= $match['adresse'] ?>">
+    <input type="text" name="adresse" value="<?= htmlspecialchars($match->getAdresse()) ?>">
     <label>Résultat :</label>
-    <input type="text" name="resultat" value="<?= $match['resultat'] ?>">
+    <input type="text" name="resultat" value="<?= htmlspecialchars($match->getResultat()) ?>">
     <input type="submit" value="Enregistrer">
 </form>
 <form method="post" action="supprimer_match.php" class="delete-form">
