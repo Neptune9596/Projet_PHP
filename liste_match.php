@@ -1,13 +1,15 @@
 <?php
     session_start();
     require "database.php";
+    require "Partie.php";
     $pdo = Database::getConnection();
     if (!isset($_SESSION["email"])) {
     header("Location: login.php");
     exit();
 }
 
-    $matchs = $pdo->query("SELECT * FROM matchs")->fetchAll(PDO::FETCH_ASSOC);
+    Partie::setPdo($pdo);
+    $matchs = Partie::getTousLesMatchs();
 ?>
 
 <!DOCTYPE html>
@@ -61,24 +63,30 @@
             <th>Adversaire</th>
             <th>Adresse</th>
             <th>Lieu de rencontre</th>
-            <th>Resultat</th>
+            <th>Résultat</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($matchs as $m): ?>
-        <tr>
-            <td><?= $m["date_match"] ?></td>
-            <td><?= $m["heure"] ?></td>
-            <td><?= $m["nom_adversaire"] ?></td>
-            <td><?= $m["adresse"] ?></td>
-            <td><?= $m["lieu_rencontre"] ?></td>
-            <td><?= $m["resultat"] ?></td>
-            <td>
-                <a href="modif_match.php?id_match=<?= $m["id_match"] ?>">Modifier</a>
-            </td>
-        </tr>
-        <?php endforeach; ?>
+        <?php if (!empty($matchs)): ?>
+            <?php foreach ($matchs as $m): ?>
+            <tr>
+                <td><?= htmlspecialchars($m->getDate()) ?></td>
+                <td><?= htmlspecialchars($m->getHeure()) ?></td>
+                <td><?= htmlspecialchars($m->getNomAdv()) ?></td>
+                <td><?= htmlspecialchars($m->getAdresse()) ?></td>
+                <td><?= htmlspecialchars($m->getLieu()) ?></td>
+                <td><?= htmlspecialchars($m->getResultat()) ?></td>
+                <td>
+                    <a href="modif_match.php?id_match=<?= $m->getId() ?>" class="btn-modif">Modifier</a>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="7" style="text-align:center;">Aucun match prévu pour le moment.</td>
+            </tr>
+        <?php endif; ?>
     </tbody>
 </table>
 
