@@ -65,6 +65,7 @@
     <th>Taille</th>
     <th>Poids</th>
     <th>Statut</th>
+    <th>Actions</th>
   </tr>
 
   <?php if (count($joueurs) > 0): ?>
@@ -77,7 +78,9 @@
             <td><?= htmlspecialchars($joueur->getTaille()) ?></td>
             <td><?= htmlspecialchars($joueur->getPoids()) ?></td>
             <td><?= htmlspecialchars($joueur->getStatut()) ?></td>
-          </tr>
+            <td>
+                <a href="modifier_joueur.php?id_joueur=<?= $joueur->getId() ?>" class="btn-modif">Modifier/Supprimer</a>
+            </td>
       <?php endforeach; ?>
   <?php else: ?>
       <tr>

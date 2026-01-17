@@ -1,42 +1,36 @@
 <?php
     session_start();
     require "database.php";
+    require "Joueur.php";
     $pdo = Database::getConnection();
     if (!isset($_SESSION["email"])) {
     header("Location: login.php");
     exit();
 }
+    if (!isset($_GET["id_joueur"])) {
+    exit("Erreur, ce match n'existe pas.");
+}
+    Joueur::setPdo($pdo);
+    $id = $_GET['id_joueur'];
+    $joueur = Joueur::getJoueurById($id);
 
-    if (!isset($_GET["licence"])) {
-        exit("Licence manquante.");
-    }
-    $licence = $_GET["licence"];
-    $stmt = $pdo->prepare("SELECT * FROM joueur WHERE numero_licence = ?");
-    $stmt->execute([$licence]);
-    $joueur = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$joueur) {
-        exit("Joueur introuvable.");
-    }
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-        $nom = $_POST["nom"];
-        $prenom = $_POST["prenom"];
-        $naissance = $_POST["naissance"];
-        $taille = $_POST["taille"];
-        $poids = $_POST["poids"];
-        $statut = $_POST["statut"];
-        $update = $pdo->prepare("
-            UPDATE joueur 
-            SET nom = ?, prenom = ?, date_naissance = ?, taille = ?, poids = ?, statut = ?
-            WHERE numero_licence = ?
-        ");
-        $update->execute([$nom, $prenom, $naissance, $taille, $poids, $statut, $licence]);
+        if (isset($_POST['action']) && $_POST['action'] === 'delete') {
+        $joueur->delete();
         header("Location: liste_joueur.php");
         exit();
     }
-    $stmt2 = $pdo->prepare("SELECT COUNT(*) FROM participation WHERE id_joueur = ?");
-    $stmt2->execute([$joueur["id_joueur"]]);
-    $nb_matchs = $stmt2->fetchColumn();
+        $joueur->setNom($_POST['nom']);
+        $joueur->setPrenom($_POST['prenom']);
+        $joueur->setDateNaissance($_POST['naissance']);
+        $joueur->setTaille($_POST['taille']);
+        $joueur->setPoids($_POST['poids']);
+        $joueur->setStatut($_POST['statut']);
+        header("Location: liste_joueur.php");
+        exit;
+    } 
+
 ?>
 
 <!DOCTYPE html>
@@ -107,23 +101,11 @@
     <input type="number" value="<?= $nb_matchs ?>" readonly>
     <input type="submit" value="Enregistrer" action="liste_joueur.php" method="post">
 </form>
-    <?php
-        if ($nb_matchs == 0) {
-            echo '
-            <form method="post" action="supprimer_joueur.php" class="delete-form">
-                <input type="hidden" name="licence" value="'.$joueur["numero_licence"].'">
-                <input type="submit" class="delete-button" value="Supprimer le joueur">
-            </form>
-            ';
-        } else {
-            echo '
-            <button class="delete-button disabled"
-                    onclick="alert(\'Impossible de supprimer ce joueur : il a déjà participé à un match.\')">
-                Supprimer le joueur
-            </button>
-            ';
-        }
-    ?>
+<form method="post" action="modifier_joueur.php?id_joueur=<?= $joueur->getId() ?>" class="delete-form">
+        <input type="hidden" name="action" value="delete">
+        <input type="submit" class="delete-bouton" value="Supprimer le joueur"
+               onclick="return confirm('Attention : Cette action est irréversible. Confirmer ?')">
+    </form>
 </div>
 </body>
 </html>

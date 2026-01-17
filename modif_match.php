@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (isset($_POST['action']) && $_POST['action'] === 'delete') {
         Partie::delete($id);
-        header("Location: liste_match.php?msg=deleted");
+        header("Location: liste_match.php");
         exit();
     }
     else {

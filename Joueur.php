@@ -36,6 +36,26 @@ class Joueur {
         return $instances;
     }
 
+    public static function getJoueurById($id) {
+        $stmt = self::$pdo->prepare("SELECT * FROM Joueur WHERE id_joueur = ?");
+        $stmt->execute([$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            return new Joueur(
+                $row['id_joueur'],
+                $row['nom'],
+                $row['prenom'],
+                $row['numero_licence'],
+                $row['date_naissance'],
+                $row['taille'],
+                $row['poids'],
+                $row['statut']
+            );
+        }
+        return null;
+    }
+
     public function __construct($idJoueur, $nom, $prenom, $numeroLicence, $dateNaissance, $taille, $poids, $statut) {
         $this->IdJoueur = $idJoueur;
         $this->Nom = $nom;
@@ -88,6 +108,11 @@ class Joueur {
         $stmt->execute([$poids, $this->IdJoueur]);
         $this->Poids = $poids;
     }
+
+    public function getId(){ 
+        return $this->IdJoueur; 
+    }
+
 
     public function getNom() : string {
         return $this->Nom;
