@@ -21,11 +21,12 @@ class Database
 
             } else {
                 // 🔴 MODE PRODUCTION (Railway)
-                $host = getenv("MYSQLHOST");
-                $db   = getenv("MYSQLDATABASE");
-                $user = getenv("MYSQLUSER");
-                $pass = getenv("MYSQLPASSWORD");
-                $port = getenv("MYSQLPORT") ?: 3306;
+                $url = parse_url(getenv('MYSQL_URL'));
+                $host = $url['host'];
+                $port = $url['port'] ?? 3306;
+                $db   = ltrim($url['path'], '/');
+                $user = $url['user'];
+                $pass = $url['pass'];
 
                 if (!$host || !$db || !$user || !$pass) {
                     die("❌ Railway : variables d'environnement manquantes.");
