@@ -1,25 +1,26 @@
 <?php
     session_start();
     require "database.php";
+    require "Joueur.php";
     $pdo = Database::getConnection();
     if (!isset($_SESSION["email"])) {
     header("Location: login.php");
     exit();
-}
+    }
+
+    Joueur::setPdo($pdo);
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $sql = "INSERT INTO Joueur (Nom, Prenom, Numero_licence, Date_naissance, Taille, Poids, Statut)
-                VALUES (:nom, :prenom, :licence, :naissance, :taille, :poids, :statut)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ":nom"       => $_POST["nom"],
-            ":prenom"    => $_POST["prenom"],
-            ":licence"   => $_POST["licence"],
-            ":naissance" => $_POST["naissance"],
-            ":taille"    => $_POST["taille"],
-            ":poids"     => $_POST["poids"],
-            ":statut"    => $_POST["statut"],
-        ]);
+        Joueur::create(
+            $_POST['nom'],
+            $_POST['prenom'],
+            $_POST['licence'],
+            $_POST['naissance'],
+            $_POST['taille'],
+            $_POST['poids'],
+            $_POST['statut'],
+            $_POST['commentaire']
+        );
         header("Location: liste_joueur.php");
         exit;
     }
