@@ -15,7 +15,8 @@ class Partie {
     }
 
     // Méthode pour récupérer tous les matchs
-    public static function getTousLesMatchs(): array {
+    public static function getTousLesMatchs(){
+        // Correction : Matchs avec un 'M' majuscule
         $stmt = self::$pdo->query("SELECT * FROM Matchs");
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -34,12 +35,32 @@ class Partie {
         return $instances;
     }
 
+    public static function getMatchById($id) {
+        // Correction : Matchs avec un 'M' majuscule
+        $stmt = self::$pdo->prepare("SELECT * FROM Matchs WHERE id_match = ?");
+        $stmt->execute([$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            return new Partie(
+                $row['date_match'],
+                $row['heure'],
+                $row['nom_adversaire'],
+                $row['adresse'],
+                $row['resultat'],
+                $row['lieu_de_rencontre'],
+                $row['id_match']
+            );
+        }
+        return null;
+    }
+
     public function __construct($date, $heure, $adversaire, $adr, $res, $lieu, $id) {
         $this->DateMatch = $date;
         $this->HeureMatch = $heure;
         $this->NomAdversaire = $adversaire;
         $this->Adresse = $adr;
-        $this->Resultat = $res ?? ""; // Évite les erreurs si le résultat est NULL
+        $this->Resultat = $res ?? "";
         $this->LieuDeRencontre = $lieu;
         $this->IdMatch = $id;
     }
@@ -51,35 +72,39 @@ class Partie {
     public function getAdresse(): string { return $this->Adresse; }
     public function getResultat(): string { return $this->Resultat; }
     public function getLieu(): string { return $this->LieuDeRencontre; }
+    public function getNomAdv(): string { return $this->NomAdversaire; }
 
-    public function getNomAdv(): string {
-        if (empty($this->NomAdversaire)) {
-            throw new InvalidArgumentException("Aucun adversaire n'a été trouvé");
-        }
-        return $this->NomAdversaire;
+    public function setDateMatch(string $date): void {
+        $stmt = self::$pdo->prepare("UPDATE Matchs SET date_match = ? WHERE id_match = ?");
+        $stmt->execute([$date, $this->IdMatch]);
+        $this->DateMatch = $date;
     }
 
-    public static function getMatchById($id){
-    $stmt = self::$pdo->prepare("SELECT * FROM Matchs WHERE id_match = ?");
-    $stmt->execute([$id]);
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($row) {
-        return new Partie(
-            $row['date_match'],
-            $row['heure'],
-            $row['nom_adversaire'],
-            $row['adresse'],
-            $row['resultat'],
-            $row['lieu_de_rencontre'],
-            $row['id_match']
-        );
+    public function setHeureMatch(string $heure): void {
+        $stmt = self::$pdo->prepare("UPDATE Matchs SET heure = ? WHERE id_match = ?");
+        $stmt->execute([$heure, $this->IdMatch]);
+        $this->HeureMatch = $heure;
     }
-    return null;
-}
 
-    // --- Setters avec mise à jour DB (Optionnel, selon votre besoin) ---
-    public function setResultat($res): void {
+    public function setNomAdversaire(string $adversaire): void {
+        $stmt = self::$pdo->prepare("UPDATE Matchs SET nom_adversaire = ? WHERE id_match = ?");
+        $stmt->execute([$adversaire, $this->IdMatch]);
+        $this->NomAdversaire = $adversaire;
+    }
+
+    public function setAdresse(string $adresse): void {
+        $stmt = self::$pdo->prepare("UPDATE Matchs SET adresse = ? WHERE id_match = ?");
+        $stmt->execute([$adresse, $this->IdMatch]);
+        $this->Adresse = $adresse;
+    }
+
+    public function setLieuDeRencontre(string $lieu): void {
+        $stmt = self::$pdo->prepare("UPDATE Matchs SET lieu_de_rencontre = ? WHERE id_match = ?");
+        $stmt->execute([$lieu, $this->IdMatch]);
+        $this->LieuDeRencontre = $lieu;
+    }
+
+    public function setResultat(string $res): void {
         $stmt = self::$pdo->prepare("UPDATE Matchs SET resultat = ? WHERE id_match = ?");
         $stmt->execute([$res, $this->IdMatch]);
         $this->Resultat = $res;
