@@ -1,10 +1,14 @@
 <?php
     session_start();    
     require "database.php";
+    require "Joueur.php";
     $pdo = Database::getConnection();
     if (!isset($_SESSION["email"])) {
     header("Location: login.php");
     exit();
+
+    Joueur::setPdo($pdo);
+    $joueurs = Joueur::getTouslesJoueurs();
 }
     
 ?>
@@ -64,46 +68,29 @@
         </div>
     </div>
     
-    <h1>Les joueurs présents</h1>
-
+    <h1>Les joueurs de l'équipe</h1>
+    
   <table>
   <tr>
-    <th>Image</th>
     <th>Nom</th>
     <th>Prenom</th>
     <th>Rôle</th>
   </tr>
-  <tr>
-    <td><img src="george.jpg" alt="Match de foot" width="120" height="100" ></td>
-    <td>Alfreds</td>
-    <td>Futterkiste</td>
-    <td>Titulaire</td>
-  </tr>
-  <tr>
-    <td><img src="george.jpg" alt="Match de foot" width="120" height="100" ></td>
-    <td>Moctezuma</td>
-    <td>Francisco</td>
-    <td>Remplaçant</td>
-  </tr>
-  <tr>
-    <td><img src="george.jpg" alt="Match de foot" width="120" height="100" ></td>
-    <td>Jean</td>
-    <td>Paul</td>
-    <td>Remplaçant</td>
-  </tr>
-  <tr>
-    <td><img src="george.jpg" alt="Match de foot" width="120" height="100" ></td>
-    <td>Marc</td>
-    <td>Dupont</td>
-    <td>Remplaçant</td>
-  </tr>
-  <tr>
-    <td><img src="george.jpg" alt="Match de foot" width="120" height="100" ></td>
-    <td>George</td>
-    <td>Washington</td>
-    <td>Titulaire</td>
-  </tr>
-</table>
+
+  <?php if (count($joueurs) > 0): ?>
+      <?php foreach ($joueurs as $joueur): ?>
+          <tr>
+            <td><?= htmlspecialchars($joueur->getNom()) ?></td>
+            <td><?= htmlspecialchars($joueur->getPrenom()) ?></td>
+            <td><?= htmlspecialchars($joueur->getStatut()) ?></td>
+          </tr>
+      <?php endforeach; ?>
+  <?php else: ?>
+      <tr>
+          <td colspan="3" style="text-align:center;">Aucun joueur dans l'équipe.</td>
+      </tr>
+  <?php endif; ?>
+  </table>
 
 </body>
 </html>
