@@ -1,8 +1,11 @@
 <?php
-    session_start();
+    session_start();    
     require "database.php";
     $pdo = Database::getConnection();
-    
+    if (!isset($_SESSION["email"])) {
+    header("Location: login.php");
+    exit();
+}
     
 ?>
 
