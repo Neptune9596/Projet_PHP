@@ -1,12 +1,13 @@
 <?php
     session_start();    
     require "database.php";
+    $pdo = Database::getConnection();
     require "Joueur.php";
     if (!isset($_SESSION["email"])) {
     header("Location: login.php");
     exit();
 }   
-    $pdo = Database::getConnection();
+    
     Joueur::setPdo($pdo);
     $joueurs = Joueur::getTouslesJoueurs();
     
