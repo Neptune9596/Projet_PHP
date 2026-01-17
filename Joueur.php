@@ -16,7 +16,7 @@ class Joueur {
     }
 
     public static function getTouslesJoueurs(): array {
-        $stmt = self::$pdo->query("SELECT * FROM joueur");
+        $stmt = self::$pdo->query("SELECT * FROM Joueur");
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $instances = [];
@@ -48,43 +48,43 @@ class Joueur {
     }
 
     public function setStatut($statut): void {
-        $stmt = self::$pdo->prepare("UPDATE joueur SET statut = ? WHERE id_joueur = ?");
+        $stmt = self::$pdo->prepare("UPDATE Joueur SET statut = ? WHERE id_joueur = ?");
         $stmt->execute([$statut, $this->IdJoueur]);
         $this->Statut = $statut;
     }
 
     public function setNom($nom): void {
-        $stmt = self::$pdo->prepare("UPDATE joueur SET nom = ? WHERE id_joueur = ?");
+        $stmt = self::$pdo->prepare("UPDATE Joueur SET nom = ? WHERE id_joueur = ?");
         $stmt->execute([$nom, $this->IdJoueur]);
         $this->Nom = $nom;
     }
 
     public function setPrenom($prenom): void {
-        $stmt = self::$pdo->prepare("UPDATE joueur SET prenom = ? WHERE id_joueur = ?");
+        $stmt = self::$pdo->prepare("UPDATE Joueur SET prenom = ? WHERE id_joueur = ?");
         $stmt->execute([$prenom, $this->IdJoueur]);
         $this->Prenom = $prenom;
     }
 
     public function setNumeroLicence($numeroLicence): void {
-        $stmt = self::$pdo->prepare("UPDATE joueur SET numero_licence = ? WHERE id_joueur = ?");
+        $stmt = self::$pdo->prepare("UPDATE Joueur SET numero_licence = ? WHERE id_joueur = ?");
         $stmt->execute([$numeroLicence, $this->IdJoueur]);
         $this->NumeroLicence = $numeroLicence;
     }
 
     public function setDateNaissance($dateNaissance): void {
-        $stmt = self::$pdo->prepare("UPDATE joueur SET date_naissance = ? WHERE id_joueur = ?");
+        $stmt = self::$pdo->prepare("UPDATE Joueur SET date_naissance = ? WHERE id_joueur = ?");
         $stmt->execute([$dateNaissance, $this->IdJoueur]);
         $this->DateNaissance = $dateNaissance;
     }
 
     public function setTaille($taille): void {
-        $stmt = self::$pdo->prepare("UPDATE joueur SET taille = ? WHERE id_joueur = ?");
+        $stmt = self::$pdo->prepare("UPDATE Joueur SET taille = ? WHERE id_joueur = ?");
         $stmt->execute([$taille, $this->IdJoueur]);
         $this->Taille = $taille;
     }
 
     public function setPoids($poids): void {
-        $stmt = self::$pdo->prepare("UPDATE joueur SET poids = ? WHERE id_joueur = ?");
+        $stmt = self::$pdo->prepare("UPDATE Joueur SET poids = ? WHERE id_joueur = ?");
         $stmt->execute([$poids, $this->IdJoueur]);
         $this->Poids = $poids;
     }
@@ -117,12 +117,12 @@ class Joueur {
     }
 
     public static function create($nom, $prenom, $numeroLicence, $dateNaissance, $taille, $poids, $statut): void {
-        $stmt = self::$pdo->prepare("INSERT INTO joueur (nom, prenom, numero_licence, date_naissance, taille, poids, statut) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt = self::$pdo->prepare("INSERT INTO Joueur (nom, prenom, numero_licence, date_naissance, taille, poids, statut) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$nom, $prenom, $numeroLicence, $dateNaissance, $taille, $poids, $statut]);
     }
 
     public function delete(): void {
-        $stmt = self::$pdo->prepare("DELETE FROM joueur WHERE id_joueur = ?");
+        $stmt = self::$pdo->prepare("DELETE FROM Joueur WHERE id_joueur = ?");
         $stmt->execute([$this->IdJoueur]);
     }
 }
