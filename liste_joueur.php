@@ -1,4 +1,7 @@
 <?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
     session_start();
     require "database.php";
     $pdo = Database::getConnection();
@@ -7,7 +10,7 @@
     exit();
 }      
 
-    $joueurs = $pdo->query("SELECT * FROM joueur")->fetchAll(PDO::FETCH_ASSOC);
+    
 ?>
 
 <!DOCTYPE html>
@@ -51,38 +54,37 @@
     </nav>
     </header>
 
-<h3>Liste des joueurs</h3>
+<h3>Liste des joueurs détaillé</h3>
 
-<table class="table-joueurs">
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>N° Licence</th>
-            <th>Naissance</th>
-            <th>Taille</th>
-            <th>Poids</th>
-            <th>Statut</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($joueurs as $j): ?>
-        <tr>
-            <td><?= $j["nom"] ?></td>
-            <td><?= $j["prenom"] ?></td>
-            <td><?= $j["numero_licence"] ?></td>
-            <td><?= $j["date_naissance"] ?></td>
-            <td><?= $j["taille"] ?> cm</td>
-            <td><?= $j["poids"] ?> kg</td>
-            <td><?= $j["statut"] ?></td>
-            <td>
-                <a href="modifier_joueur.php?licence=<?= $j["numero_licence"] ?>">Modifier</a>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+<table>
+  <tr>
+    <th>Nom</th>
+    <th>Prenom</th>
+    <th>Numero de Licence</th>
+    <th>Date de naissance</th>
+    <th>Taille</th>
+    <th>Poids</th>
+    <th>Statut</th>
+  </tr>
+
+  <?php if (count($joueurs) > 0): ?>
+      <?php foreach ($joueurs as $joueur): ?>
+          <tr>
+            <td><?= htmlspecialchars($joueur->getNom()) ?></td>
+            <td><?= htmlspecialchars($joueur->getPrenom()) ?></td>
+            <td><?= htmlspecialchars($joueur->getNumeroLicence()) ?></td>
+            <td><?= htmlspecialchars($joueur->getDateNaisssance()) ?></td>
+            <td><?= htmlspecialchars($joueur->getTaille()) ?></td>
+            <td><?= htmlspecialchars($joueur->getPoids()) ?></td>
+            <td><?= htmlspecialchars($joueur->getStatut()) ?></td>
+          </tr>
+      <?php endforeach; ?>
+  <?php else: ?>
+      <tr>
+          <td colspan="3" style="text-align:center;">Aucun joueur dans l'équipe.</td>
+      </tr>
+  <?php endif; ?>
+  </table>
 
 </body>
 </html>
