@@ -16,6 +16,13 @@ Partie::setPdo($pdo);
 $match = Partie::getMatchById($id);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    if (isset($_POST['action']) && $_POST['action'] === 'delete') {
+        Partie::delete($id);
+        header("Location: liste_match.php?msg=deleted");
+        exit();
+    }
+    else {
     $match->setDateMatch($_POST['date_match']);
     $match->setHeureMatch($_POST['heure']);
     $match->setNomAdversaire($_POST['nom_adversaire']);
@@ -23,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $match->setResultat($_POST['resultat']);
     header("Location: liste_match.php");
     exit();
+    }
 }
 
 
@@ -85,11 +93,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <input type="text" name="resultat" value="<?= htmlspecialchars($match->getResultat()) ?>">
     <input type="submit" value="Enregistrer">
 </form>
-<form method="post" action="supprimer_match.php" class="delete-form">
-    <input type="hidden" name="id_match" value="<?= $match['id_match'] ?>">
-    <input type="submit" class="delete-button" value="Supprimer le match"
-           onclick="return confirm('Voulez-vous vraiment supprimer ce match ?')">
-</form>
+
+<form method="post" action="modif_match.php?id_match=<?= $match->getId() ?>" class="delete-form">
+        <input type="hidden" name="action" value="delete">
+        <input type="submit" class="delete-bouton" value="Supprimer le match"
+               onclick="return confirm('Attention : Cette action est irréversible. Confirmer ?')">
+    </form>
 
 </div>
 

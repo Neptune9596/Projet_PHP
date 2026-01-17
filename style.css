@@ -295,7 +295,7 @@ tr:nth-child(even) {
   margin-top: 8px;
 }
 
-.delete-button {
+.delete-bouton {
   width: 100%;
   padding: 12px;
   border: none;
@@ -308,11 +308,11 @@ tr:nth-child(even) {
   transition: background-color 0.3s ease;
 }
 
-.delete-button:hover {
+.delete-bouton:hover {
   background-color: #b02a37;
 }
 
-.delete-button.disabled {
+.delete-bouton.disabled {
   background-color: #888;
   cursor: not-allowed;
 }

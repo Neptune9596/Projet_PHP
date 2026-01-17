@@ -68,6 +68,11 @@ class Partie {
         $stmt->execute([$date, $heure, $adversaire, $resultat, $lieu]);
     }
 
+    public static function delete($id) {
+    $stmt = self::$pdo->prepare("DELETE FROM Matchs WHERE id_match = ?");
+    return $stmt->execute([$id]);
+    }
+
     // --- Getters ---
     public function getId(): int { return $this->IdMatch; }
     public function getDate(): string { return $this->DateMatch; }
