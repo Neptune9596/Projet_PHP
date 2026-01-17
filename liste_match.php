@@ -76,7 +76,7 @@
                 <td><?= htmlspecialchars($m->getLieu()) ?></td>
                 <td><?= htmlspecialchars($m->getResultat()) ?></td>
                 <td>
-                    <a href="modif_match.php?id_match=<?= $m->getId() ?>" class="btn-modif">Modifier</a>
+                    <a href="modif_match.php?id_match=<?= $m->getId() ?>" class="btn-modif">Modifier/Supprimer</a>
                 </td>
             </tr>
             <?php endforeach; ?>

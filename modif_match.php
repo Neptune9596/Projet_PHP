@@ -16,6 +16,14 @@ Partie::setPdo($pdo);
 $match = Partie::getMatchById($id);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    //Bloquer la modification/suppression des matchs passés
+    $dateMatchComplete = new DateTime($match->getDate() . ' ' . $match->getHeure());
+    $maintenant = new DateTime();
+
+    if ($dateMatchComplete < $maintenant) {
+        header("Location: liste_match.php");
+        exit("Erreur : Impossible de modifier ou supprimer un match passé.");
+    }
 
     if (isset($_POST['action']) && $_POST['action'] === 'delete') {
         Partie::delete($id);
