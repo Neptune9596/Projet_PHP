@@ -4,11 +4,14 @@
     error_reporting(E_ALL);
     session_start();
     require "database.php";
+    require "Joueur.php";
     $pdo = Database::getConnection();
     if (!isset($_SESSION["email"])) {
     header("Location: login.php");
     exit();
 }      
+    Joueur::setPdo($pdo);
+    $joueurs = Joueur::getTouslesJoueurs();
 
     
 ?>
