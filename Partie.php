@@ -61,6 +61,13 @@ class Partie {
         $this->IdMatch = $id;
     }
 
+    public static function create($date, $heure, $adversaire, $lieu, $resultat = null) {
+        $sql = "INSERT INTO Matchs (date_match, heure, nom_adversaire, resultat, lieu_de_rencontre) 
+                VALUES (?, ?, ?, ?, ?)";
+        $stmt = self::$pdo->prepare($sql);
+        $stmt->execute([$date, $heure, $adversaire, $resultat, $lieu]);
+    }
+
     // --- Getters ---
     public function getId(): int { return $this->IdMatch; }
     public function getDate(): string { return $this->DateMatch; }

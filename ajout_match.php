@@ -1,38 +1,22 @@
 <?php
     session_start();
     require "database.php";
+    require "Partie.php";
     $pdo = Database::getConnection();
     if (!isset($_SESSION["email"])) {
     header("Location: login.php");
     exit();
 }
-    $erreur = "";
-
+    Partie::setPdo($pdo);
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $date = $_POST["date_match"];
-        $heure = $_POST["heure"];
-        $today = date("Y-m-d");
-        $currentTime = date("H:i");
-        if ($date < $today) {
-            $erreur = "La date du match ne peut pas être dans le passé.";
-        }
-        if ($erreur === "" && $date == $today && $heure < $currentTime) {
-            $erreur = "L'heure du match est déjà passée.";
-        }
-        if ($erreur === "") {
-            $sql = "INSERT INTO matchs (date_match, heure, nom_adversaire, adresse, lieu_rencontre)
-                    VALUES (:date_match, :heure, :nom_adversaire, :adresse, :lieu_rencontre)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([
-                ":date_match"     => $date,
-                ":heure"          => $heure,
-                ":nom_adversaire" => $_POST["nom_adversaire"],
-                ":adresse"        => $_POST["adresse"],
-                ":lieu_rencontre" => $_POST["lieu_rencontre"],
-            ]);
-            header("Location: liste_match.php");
-            exit();
-        }
+        $matchs = Partie::create(
+            $_POST['date_match'],
+            $_POST['heure'],
+            $_POST['nom_adversaire'],
+            $_POST['lieu_rencontre']
+        );
+        header("Location: liste_match.php");
+        exit();
     }
 ?>
 
