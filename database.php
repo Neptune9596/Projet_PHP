@@ -8,25 +8,12 @@ class Database
     {
         if (self::$pdo === null) {
             try {
-                $url = getenv('MYSQL_URL');
-
-                if ($url) {
-                    //Mode production / en ligne (Railway)
-                    $host = getenv('MYSQLHOST');
-                    $port = getenv('MYSQLPORT');
-                    $db   = getenv('MYSQLDATABASE');
-                    $user = getenv('MYSQLUSER');
-                    $pass = getenv('MYSQLPASSWORD');
-                } else {
-                    // 🔵 MODE LOCAL (XAMPP / WAMP)
-                    $host = "localhost";
-                    $db   = "football"; 
-                    $user = "root";
-                    $pass = "";
-                    $port = 3306;
-                }
-
-                // --- Connexion ---
+                $host = getenv('MYSQLHOST');
+                $port = getenv('MYSQLPORT');
+                $db   = getenv('MYSQLDATABASE');
+                $user = getenv('MYSQLUSER');
+                $pass = getenv('MYSQLPASSWORD');
+                    // --- Connexion ---
                 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
                 self::$pdo = new PDO($dsn, $user, $pass, [
