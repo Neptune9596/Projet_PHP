@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($dateMatchComplete < $maintenant) {
         header("Location: liste_match.php");
-        exit("Erreur : Impossible de modifier ou supprimer un match passé.");
+        exit();
     }
 
     if (isset($_POST['action']) && $_POST['action'] === 'delete') {
