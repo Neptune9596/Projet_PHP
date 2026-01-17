@@ -20,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $match->setHeureMatch($_POST['heure']);
     $match->setNomAdversaire($_POST['nom_adversaire']);
     $match->setLieuDeRencontre($_POST['lieu_rencontre']);
-    $match->setAdresse($_POST['adresse']);
     $match->setResultat($_POST['resultat']);
     header("Location: liste_match.php");
     exit();
@@ -82,8 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <input type="text" name="nom_adversaire" value="<?= htmlspecialchars($match->getNomAdv()) ?>" required>
     <label>Lieu de la rencontre :</label>
     <input type="text" name="lieu_rencontre" value="<?= htmlspecialchars($match->getLieu()) ?>">
-    <label>Adresse :</label>
-    <input type="text" name="adresse" value="<?= htmlspecialchars($match->getAdresse()) ?>">
     <label>Résultat :</label>
     <input type="text" name="resultat" value="<?= htmlspecialchars($match->getResultat()) ?>">
     <input type="submit" value="Enregistrer">

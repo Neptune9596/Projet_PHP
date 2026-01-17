@@ -61,7 +61,6 @@
             <th>Date</th>
             <th>Heure</th>
             <th>Adversaire</th>
-            <th>Adresse</th>
             <th>Lieu de rencontre</th>
             <th>Résultat</th>
             <th>Actions</th>
@@ -74,7 +73,6 @@
                 <td><?= htmlspecialchars($m->getDate()) ?></td>
                 <td><?= htmlspecialchars($m->getHeure()) ?></td>
                 <td><?= htmlspecialchars($m->getNomAdv()) ?></td>
-                <td><?= htmlspecialchars($m->getAdresse()) ?></td>
                 <td><?= htmlspecialchars($m->getLieu()) ?></td>
                 <td><?= htmlspecialchars($m->getResultat()) ?></td>
                 <td>
