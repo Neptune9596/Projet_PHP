@@ -90,8 +90,6 @@
     <input type="time" name="heure" required>
     <label>Nom adversaire :</label>
     <input type="text" name="nom_adversaire" required>
-    <label>Adresse :</label>
-    <input type="text" name="adresse" required>
     <label>Lieu de la rencontre :</label>
     <input type="text" name="lieu_rencontre" required>
     <label>Resultat :</label>
