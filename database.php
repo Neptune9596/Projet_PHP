@@ -8,17 +8,15 @@ class Database
     {
         if (self::$pdo === null) {
             try {
-                // --- 1️⃣ Détection du mode (Priorité à Railway) ---
-                $mysqlUrl = getenv('MYSQL_URL');
+                $url = getenv('MYSQL_URL');
 
-                if ($mysqlUrl) {
-                    // 🔴 MODE PRODUCTION (Railway)
-                    $url = parse_url($mysqlUrl);
-                    $host = $url['host'];
-                    $port = $url['port'] ?? 3306;
-                    $db   = ltrim($url['path'], '/');
-                    $user = $url['user'];
-                    $pass = $url['pass'];
+                if ($url) {
+                    //Mode production / en ligne (Railway)
+                    $host = getenv('MYSQLHOST');
+                    $port = getenv('MYSQLPORT');
+                    $db   = getenv('MYSQLDATABASE');
+                    $user = getenv('MYSQLUSER');
+                    $pass = getenv('MYSQLPASSWORD');
                 } else {
                     // 🔵 MODE LOCAL (XAMPP / WAMP)
                     $host = "localhost";
@@ -28,7 +26,7 @@ class Database
                     $port = 3306;
                 }
 
-                // --- 2️⃣ Connexion ---
+                // --- Connexion ---
                 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
                 self::$pdo = new PDO($dsn, $user, $pass, [
