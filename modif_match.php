@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $dateMatchComplete = new DateTime($match->getDate() . ' ' . $match->getHeure());
     $maintenant = new DateTime();
 
-    if ($dateMatchComplete < $maintenant) {
+    if ($dateMatchComplete < $maintenant && $_POST['resultat'] === $match->getResultat()) {
         header("Location: liste_match.php");
         exit();
     }
