@@ -109,56 +109,95 @@
 
 <h3>Gérer les joueurs de cette match</h3>
 
+<h3>Titulaires</h3>
 <table>
-  <thead>
+    <thead>
         <tr>
             <th>Joueur</th>
             <th>Poste</th>
-            <th>État</th>
             <th>Note</th>
             <th>Action</th>
         </tr>
-  </thead>
-  <tbody>
-<?php foreach ($participations as $p): 
-            $j = Joueur::getJoueurById($p->getIdJoueur());
+    </thead>
+    <tbody>
+        <?php foreach ($participations as $p): 
+            if (strtolower($p->getEtat()) == "titulaire"): // Filtre Titulaires
+                $j = Joueur::getJoueurById($p->getIdJoueur());
         ?>
         <tr>
-            <form class="joueur-form" method="post">
+            <form method="post" action="Modifier_Feuille_de_Match.php?id_match=<?= $id_match ?>">
                 <td><?= htmlspecialchars($j->getPrenom() . " " . $j->getNom()) ?></td>
-                
                 <td>
                     <select name="poste">
-                        <option value="gardien" <?= $p->getPoste() == "Gardien" ? "selected" : "" ?>>Gardien</option>
-                        <option value="défenseur" <?= $p->getPoste() == "Défenseur" ? "selected" : "" ?>>Défenseur</option>
-                        <option value="milieu" <?= $p->getPoste() == "Milieu" ? "selected" : "" ?>>Milieu</option>
-                        <option value="attaquant" <?= $p->getPoste() == "Attaquant" ? "selected" : "" ?>>Attaquant</option>
+                        <option value="gardien" <?= strtolower($p->getPoste()) == "gardien" ? "selected" : "" ?>>Gardien</option>
+                        <option value="défenseur" <?= strtolower($p->getPoste()) == "défenseur" ? "selected" : "" ?>>Défenseur</option>
+                        <option value="milieu" <?= strtolower($p->getPoste()) == "milieu" ? "selected" : "" ?>>Milieu</option>
+                        <option value="attaquant" <?= strtolower($p->getPoste()) == "attaquant" ? "selected" : "" ?>>Attaquant</option>
                     </select>
+                    <input type="hidden" name="etat" value="titulaire">
                 </td>
-
-                <td>
-                    <select name="etat">
-                        <option value="titulaire" <?= $p->getEtat() == "Titulaire" ? "selected" : "" ?>>Titulaire</option>
-                        <option value="remplaçant" <?= $p->getEtat() == "Remplaçant" ? "selected" : "" ?>>Remplaçant</option>
-                    </select>
-                </td>
-
                 <td>
                     <input type="number" name="evaluation" value="<?= $p->getEvaluation() ?>" min="0" max="5" style="width: 50px;">
                 </td>
-
                 <td>
                     <input type="hidden" name="id_participation" value="<?= $p->getId() ?>">
+                    <input type="hidden" name="id_match" value="<?= $id_match ?>">
                     <input type="submit" name="action" value="Sauvegarder">
-
-                    <button type="submit" name="action" value="supprimer" 
-                    onclick="return confirm('Retirer ce joueur du match ?')">Supprimer</button>
+                    <button type="submit" name="action" value="supprimer" onclick="return confirm('Retirer ?')">❌</button>
                 </td>
             </form>
         </tr>
-        <?php endforeach; ?>
+        <?php endif; endforeach; ?>
     </tbody>
-  </table>
+</table>
+
+<h3>Remplaçants</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Joueur</th>
+            <th>Poste</th>
+            <th>Note</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($participations as $p): 
+            // Filtre Remplaçants (on vérifie avec et sans accent par sécurité)
+            $etat = strtolower($p->getEtat());
+            if ($etat == "remplaçant" || $etat == "remplacant"): 
+                $j = Joueur::getJoueurById($p->getIdJoueur());
+        ?>
+        <tr>
+            <form method="post" action="Modifier_Feuille_de_Match.php?id_match=<?= $id_match ?>">
+                <td><?= htmlspecialchars($j->getPrenom() . " " . $j->getNom()) ?></td>
+                <td>
+                    <select name="poste">
+                        <option value="gardien" <?= strtolower($p->getPoste()) == "gardien" ? "selected" : "" ?>>Gardien</option>
+                        <option value="défenseur" <?= strtolower($p->getPoste()) == "défenseur" ? "selected" : "" ?>>Défenseur</option>
+                        <option value="milieu" <?= strtolower($p->getPoste()) == "milieu" ? "selected" : "" ?>>Milieu</option>
+                        <option value="attaquant" <?= strtolower($p->getPoste()) == "attaquant" ? "selected" : "" ?>>Attaquant</option>
+                    </select>
+                    <input type="hidden" name="etat" value="remplaçant">
+                </td>
+                <td>
+                    <input type="number" name="evaluation" value="<?= $p->getEvaluation() ?>" min="0" max="5" style="width: 50px;">
+                </td>
+                <td>
+                    <input type="hidden" name="id_participation" value="<?= $p->getId() ?>">
+                    <input type="hidden" name="id_match" value="<?= $id_match ?>">
+                    <input type="submit" name="action" value="Sauvegarder">
+                    <button type="submit" name="action" value="supprimer" onclick="return confirm('Retirer ?')">❌</button>
+                </td>
+            </form>
+        </tr>
+        <?php endif; endforeach; ?>
+    </tbody>
+</table>
+
+
+
+
   <h3>Ajouter un joueur à la feuille de match</h3>
 
   <div class="form-container">
