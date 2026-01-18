@@ -1,0 +1,100 @@
+/* --- Mise en page générale --- */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-top: 30px;
+}
+
+/* --- Grille des statistiques (Cartes du haut) --- */
+.grille-stats {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.carte-stat {
+    flex: 1; /* Toutes les cartes ont la même largeur */
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.chiffre-stat {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: 10px 0;
+    display: block;
+}
+
+.pourcentage-stat {
+    font-size: 1.1em;
+    color: #7f8c8d;
+}
+
+/* Couleurs spécifiques pour les résultats */
+.victoire { border-top: 5px solid #27ae60; color: #27ae60; }
+.nul { border-top: 5px solid #f39c12; color: #f39c12; }
+.defaite { border-top: 5px solid #e74c3c; color: #e74c3c; }
+
+/* --- Tableau des Joueurs --- */
+.tableau-stats {
+    width: 100%;
+    border-collapse: collapse; /* Enlève les doubles bordures */
+    margin-top: 15px;
+}
+
+.tableau-stats th, .tableau-stats td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tableau-stats th {
+    background-color: #2c3e50;
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.tableau-stats tr:hover {
+    background-color: #f1f1f1; /* Effet de survol */
+}
+
+/* Petits badges pour le statut (actif, blessé...) */
+.badge-statut {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+.badge-statut.actif { background-color: #d4edda; color: #155724; }
+.badge-statut.blessé { background-color: #f8d7da; color: #721c24; }
+.badge-statut.suspendu { background-color: #fff3cd; color: #856404; }
+
+.serie-nombre {
+    font-weight: bold;
+    color: #3498db;
+    text-align: center;
+}

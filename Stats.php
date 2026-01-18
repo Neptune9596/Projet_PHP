@@ -21,7 +21,7 @@ $statsJoueurs = Statistiques::getPlayersFullStats();
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="statistiques.css">
     <title>Statistiques de l'Équipe</title>
 </head>
 <body>
