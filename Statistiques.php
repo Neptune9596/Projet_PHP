@@ -6,8 +6,9 @@ class Statistiques {
     public static function setPdo($pdo) {
         self::$pdo = $pdo;
     }
+
     /**
-     * Récupère les statistiques globales de l'équipe
+     * Stats globales de l'équipe
      */
     public static function getGlobalStats() {
         $stmt = self::$pdo->query("SELECT resultat FROM Matchs WHERE resultat IS NOT NULL AND resultat != ''");
@@ -16,10 +17,8 @@ class Statistiques {
         $stats = ['gagnes' => 0, 'nuls' => 0, 'perdus' => 0, 'total' => 0];
 
         foreach ($matchs as $m) {
-            $scores = explode('-', $m['resultat']); // C'est juste une fonction qui pemret de decouper la chaine de caractere
-            if (count($scores) == 2) {
-                $equipe = (int)$scores[0];
-                $adversaire = (int)$scores[1];
+            // sscanf extrait directement les nombres du format "X-Y"
+            if (sscanf($m['resultat'], "%d-%d", $equipe, $adversaire) === 2) {
                 $stats['total']++;
                 if ($equipe > $adversaire) $stats['gagnes']++;
                 elseif ($equipe < $adversaire) $stats['perdus']++;
@@ -27,9 +26,18 @@ class Statistiques {
             }
         }
         
+        // CORRECTION ICI : Calcul des pourcentages pour TOUS les résultats
         if ($stats['total'] > 0) {
             $stats['pourcentage_gagnes'] = round(($stats['gagnes'] / $stats['total']) * 100, 1);
+            $stats['pourcentage_nuls'] = round(($stats['nuls'] / $stats['total']) * 100, 1);     // Ajouté
+            $stats['pourcentage_perdus'] = round(($stats['perdus'] / $stats['total']) * 100, 1); // Ajouté
+        } else {
+            // Sécurité pour éviter la division par zéro
+            $stats['pourcentage_gagnes'] = 0;
+            $stats['pourcentage_nuls'] = 0;
+            $stats['pourcentage_perdus'] = 0;
         }
+        
         return $stats;
     }
 
@@ -37,30 +45,29 @@ class Statistiques {
      * Récupère les stats pour TOUS les joueurs
      */
     public static function getPlayersFullStats() {
-        // 1. On récupère d'abord tous les joueurs
         $stmt = self::$pdo->query("SELECT id_joueur, nom, prenom, statut FROM Joueur");
         $joueurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $resultats = [];
 
-        // 2. Pour chaque joueur, on calcule ses stats individuellement
         foreach ($joueurs as $j) {
             $id = $j['id_joueur'];
             
             $j['nb_titulaire'] = self::countEtat($id, 'titulaire');
-            $j['nb_remplacant'] = self::countEtat($id, 'remplaçant');
+            $j['nb_remplacant'] = self::countEtat($id, 'remplaçant'); // ou 'remplacant' selon ta BDD
             $j['moyenne_eval'] = self::getMoyenne($id);
             $j['poste_prefere'] = self::getPostePrefere($id);
-            $j['win_rate'] = self::getPlayerWinRate($id);
-            $j['consecutive'] = self::getConsecutiveSelections($id);
+            
+            // CORRECTION ICI : Noms de clés en français pour correspondre à Stats.php
+            $j['taux_victoire'] = self::getPlayerWinRate($id); 
+            $j['selection_consecutive'] = self::getConsecutiveSelections($id);
 
             $resultats[] = $j;
         }
-
         return $resultats;
     }
 
-    // --- SOUS-FONCTIONS POUR SIMPLIFIER LE SQL ---
+    // --- SOUS-FONCTIONS ---
 
     private static function countEtat($id_joueur, $etat) {
         $sql = "SELECT COUNT(*) FROM Participation WHERE id_joueur = ? AND etat = ?";
@@ -86,6 +93,7 @@ class Statistiques {
     }
 
     private static function getPlayerWinRate($id_joueur) {
+        // On récupère les résultats des matchs où le joueur a participé
         $sql = "SELECT m.resultat FROM Matchs m 
                 INNER JOIN Participation p ON m.id_match = p.id_match 
                 WHERE p.id_joueur = ? AND m.resultat IS NOT NULL";
@@ -98,14 +106,14 @@ class Statistiques {
 
         $gagnes = 0;
         foreach ($matchs as $m) {
-            $scores = explode('-', $m['resultat']);
-            if (isset($scores[1]) && (int)$scores[0] > (int)$scores[1]) $gagnes++;
+            if (sscanf($m['resultat'], "%d-%d", $equipe, $adversaire) === 2) {
+                if ($equipe > $adversaire) $gagnes++;
+            }
         }
         return round(($gagnes / $total) * 100, 1);
     }
 
     public static function getConsecutiveSelections($id_joueur) {
-        // On récupère les participations triées par date de match (plus récent en premier)
         $sql = "SELECT p.etat FROM Participation p 
                 INNER JOIN Matchs m ON p.id_match = m.id_match 
                 WHERE p.id_joueur = ? 
@@ -116,10 +124,11 @@ class Statistiques {
 
         $consecutive = 0;
         foreach ($etats as $etat) {
-            if ($etat === 'titulaire') {
+            // Attention : assure-toi que 'titulaire' est écrit exactement comme dans ta BDD (minuscule/majuscule)
+            if (strtolower($etat) === 'titulaire') {
                 $consecutive++;
             } else {
-                break; // On s'arrête dès qu'il n'est plus titulaire
+                break;
             }
         }
         return $consecutive;
