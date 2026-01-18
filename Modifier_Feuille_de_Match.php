@@ -154,7 +154,7 @@
   <h3>Ajouter un joueur à la feuille de match</h3>
 
   <div class="form-container">
-  <form action="Modifier_Feuille_de_Match.php?id_match=<?= $match->getId() ?>" method="post" class="joueur-form">
+  <form action="Modifier_Feuille_de_Match.php" method="post" class="joueur-form">
 
     <input type="hidden" name="id_match" value="<?= $id_match ?>">    
     <select name="id_joueur" required>
