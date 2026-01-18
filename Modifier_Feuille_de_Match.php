@@ -72,7 +72,7 @@
     </nav>
     </header>
 
-<h3>Liste des joueurs détaillé</h3>
+<h3>Gérer les joueurs de cette match</h3>
 
 <table>
   <thead>
