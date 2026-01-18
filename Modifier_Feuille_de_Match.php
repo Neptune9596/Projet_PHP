@@ -13,7 +13,15 @@
 }      
     Joueur::setPdo($pdo);
     Participe::setPdo($pdo);
-    $id_match = $_GET['id_match'];
+    // On cherche l'ID dans GET ou POST, sinon on met null
+    $id_match = $_GET['id_match'] ?? $_POST['id_match'] ?? null;
+
+    // Si on n'a vraiment pas d'ID, on ne peut pas afficher la page
+    if (!$id_match) {
+    header("Location: liste_match.php"); 
+    exit();
+    }
+
     $participations = Participe::getByMatch ($id_match); // recuperer les participants du match
     $disponibles = Joueur::getJoueursDisponiblesPourMatch($id_match); //recuperer liste des joueurs actifs
     
@@ -154,7 +162,7 @@
   <h3>Ajouter un joueur à la feuille de match</h3>
 
   <div class="form-container">
-  <form action="Modifier_Feuille_de_Match.php" method="post" class="joueur-form">
+  <form action="Modifier_Feuille_de_Match.php?id_match=<?= $id_match ?>" method="post" class="joueur-form">
 
     <input type="hidden" name="id_match" value="<?= $id_match ?>">    
     <select name="id_joueur" required>
@@ -174,8 +182,8 @@
     </select>
 
     <select name="état">
-        <option value="gardien">Titulaire</option>
-        <option value="défenseur">Remplaçant</option>
+        <option value="Titulaire">Titulaire</option>
+        <option value="Remplaçant">Remplaçant</option>
     </select>
 
     <input type="submit" name="action" value="Enregistrer">
