@@ -43,35 +43,30 @@
 </head>
 
 <body>
-    <header>
-    <nav class="navbar">
-        <ul class="nav-list">
-            <li class="nav-item">
-                <a href="accueil.php" class="nav-link">Accueil</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link">Joueur</a>
-                <ul class="dropdown-menu">
-                    <li><a href="ajout_joueur.php" class="dropdown-link">Ajouter un joueur</a></li>
-                    <li><a href="liste_joueur.php" class="dropdown-link">Liste des joueurs</a></li>
-                </ul>
-             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link">Matchs</a>
-                <ul class="dropdown-menu">
-                    <li><a href="ajout_match.php" class="dropdown-link">Créer un match</a></li>
-                    <li><a href="liste_match.php" class="dropdown-link">Liste des matchs</a></li>
-                    <li><a href="feuille_match.php" class="dropdown-link">Feuille de match</a></li>
-                </ul>
-             </li>
-             <li class="nav-item dropdown">
-                <a class="nav-link">Statistiques</a>
-                <ul class="dropdown-menu">
-                    <li><a href="stats_equipe.php" class="dropdown-link">Statistiques équipe</a></li>
-                </ul>
-             </li>
-        </ul>
-    </nav>
+        <header>
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="accueil.php" class="nav-link">Accueil</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link">Joueur</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="ajout_joueur.php" class="dropdown-link">Ajouter un joueur</a></li>
+                        <li><a href="liste_joueur.php" class="dropdown-link">Liste des joueurs</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link">Matchs</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="ajout_match.php" class="dropdown-link">Créer un match</a></li>
+                        <li><a href="liste_match.php" class="dropdown-link">Liste des matchs</a></li>
+                        <li><a href="feuille_match.php" class="dropdown-link">Feuille de match</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="Stats.php" class="nav-link">Statistiques</a>
+                </li>
+            </ul>
+        </nav>
     </header>
 
 <h3>Modifier un joueur</h3>
