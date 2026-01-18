@@ -25,13 +25,12 @@ class Commentaire {
         $date = date('Y-m-d'); // Date du jour
         $stmt = self::$pdo->prepare("INSERT INTO Commentaires (id_joueur, contenu, date_commentaire) VALUES (?, ?, ?)");
         $stmt->execute([$id_joueur, $contenu, $date]);
-        return self::$pdo->lastInsertId();
     }
 
     // Supprimer un commentaire de la BD
     public static function delete($id_commentaire) {
         $stmt = self::$pdo->prepare("DELETE FROM Commentaires WHERE id_commentaire = ?");
-        return $stmt->execute([$id_commentaire]);
+        $stmt->execute([$id_commentaire]);
     }
 
     // Récupérer les commentaires d'un joueur spécifique
