@@ -73,7 +73,7 @@
 <h3>Ajouter un joueur</h3>
 
 <div class="form-container">
-    <form class="player-form" action="ajout_joueur.php" method="post">
+    <form class="joueur-form" action="ajout_joueur.php" method="post">
         <label>Nom :</label> <input type="text" name="nom" required>
         <label>Prénom :</label> <input type="text" name="prenom" required>
         <label>Numéro de licence :</label> <input type="number" name="licence" required>
