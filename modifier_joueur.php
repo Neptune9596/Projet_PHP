@@ -8,7 +8,7 @@
     exit();
 }
     if (!isset($_GET["id_joueur"])) {
-    exit("Erreur, ce match n'existe pas.");
+    exit("Erreur, ce joueur n'existe pas.");
 }
     Joueur::setPdo($pdo);
     $id = $_GET['id_joueur'];
@@ -77,7 +77,8 @@
 <h3>Modifier un joueur</h3>
 
 <div class="form-container">
-<form class="player-form" method="post" action="modifier_joueur.php?licence=<?= $joueur['numero_licence'] ?>">
+
+<form class="joueur-form" method="post" action="modifier_joueur.php?id_joueur=<?= $joueur->getId() ?>">
     <label>Nom :</label>
     <input type="text" name="nom" value="<?= htmlspecialchars($joueur->getNom()) ?>" required>
     <label>Prénom :</label>
