@@ -18,7 +18,7 @@ class Commentaire {
         $this->Date_Commentaire = $date_commentaire;
     }
 
-    // --- Méthodes de communication avec la BD ---
+    // --- Foncitons de communication avec la BD ---
 
     // Ajouter un commentaire dans la BD
     public static function create($id_joueur, $contenu) {

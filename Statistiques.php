@@ -26,7 +26,7 @@ class Statistiques {
             }
         }
         
-        // CORRECTION ICI : Calcul des pourcentages pour TOUS les résultats
+        // Calcul des pourcentages pour TOUS les résultats
         if ($stats['total'] > 0) {
             $stats['pourcentage_gagnes'] = round(($stats['gagnes'] / $stats['total']) * 100, 1);
             $stats['pourcentage_nuls'] = round(($stats['nuls'] / $stats['total']) * 100, 1);     // Ajouté
@@ -54,11 +54,11 @@ class Statistiques {
             $id = $j['id_joueur'];
             
             $j['nb_titulaire'] = self::countEtat($id, 'titulaire');
-            $j['nb_remplacant'] = self::countEtat($id, 'remplaçant'); // ou 'remplacant' selon ta BDD
+            $j['nb_remplacant'] = self::countEtat($id, 'remplaçant'); 
             $j['moyenne_eval'] = self::getMoyenne($id);
             $j['poste_prefere'] = self::getPostePrefere($id);
             
-            // CORRECTION ICI : Noms de clés en français pour correspondre à Stats.php
+            
             $j['taux_victoire'] = self::getTauxVictoire($id); 
             $j['selection_consecutive'] = self::getSelections($id);
 
@@ -124,7 +124,6 @@ class Statistiques {
 
         $consecutive = 0;
         foreach ($etats as $etat) {
-            // Attention : assure-toi que 'titulaire' est écrit exactement comme dans ta BDD (minuscule/majuscule)
             if (strtolower($etat) === 'titulaire') {
                 $consecutive++;
             } else {

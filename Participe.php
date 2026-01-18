@@ -2,8 +2,6 @@
 
 class Participe {
     private static $pdo;
-    
-    // Propriétés correspondant à la table 'Participation'
     private $IdParticipation;
     private $IdMatch;
     private $IdJoueur;
@@ -23,8 +21,6 @@ class Participe {
         $this->Etat = $etat;
         $this->Evaluation = $evaluation;
     }
-
-    // --- CRUD (Create, Read, Delete) ---
 
     // Créer une nouvelle participation
     public static function create($id_match, $id_joueur, $poste, $etat, $evaluation = null) {

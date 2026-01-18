@@ -125,7 +125,7 @@
     </thead>
     <tbody>
         <?php foreach ($participations as $p): 
-            if (strtolower($p->getEtat()) == "titulaire"): // Filtre Titulaires
+            if (strtolower($p->getEtat()) == "titulaire"): 
                 $j = Joueur::getJoueurById($p->getIdJoueur());
         ?>
         <tr>
@@ -174,7 +174,6 @@
     </thead>
     <tbody>
         <?php foreach ($participations as $p): 
-            // Filtre Remplaçants (on vérifie avec et sans accent par sécurité)
             $etat = strtolower($p->getEtat());
             if ($etat == "remplaçant" || $etat == "remplacant"): 
                 $j = Joueur::getJoueurById($p->getIdJoueur());

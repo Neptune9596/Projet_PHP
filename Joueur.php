@@ -35,7 +35,7 @@ class Joueur {
 
         return $instances;
     }
-
+    // Trouver un joueur par son ID
     public static function getJoueurById($id) {
         $stmt = self::$pdo->prepare("SELECT * FROM Joueur WHERE id_joueur = ?");
         $stmt->execute([$id]);
@@ -97,6 +97,7 @@ class Joueur {
         $this->Statut = $statut;
     }
 
+    // ---- Setters ----
     public function setStatut($statut): void {
         $stmt = self::$pdo->prepare("UPDATE Joueur SET statut = ? WHERE id_joueur = ?");
         $stmt->execute([$statut, $this->IdJoueur]);
@@ -139,6 +140,7 @@ class Joueur {
         $this->Poids = $poids;
     }
 
+    // ---- Getters ----
     public function getId(){ 
         return $this->IdJoueur; 
     }
@@ -171,6 +173,7 @@ class Joueur {
         return $this->Statut;
     }
 
+    // ---- Fonctionss de communication avec la BD ----
     public static function create($nom, $prenom, $numeroLicence, $dateNaissance, $taille, $poids, $statut): void {
         $stmt = self::$pdo->prepare("INSERT INTO Joueur (nom, prenom, numero_licence, date_naissance, taille, poids, statut) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([$nom, $prenom, $numeroLicence, $dateNaissance, $taille, $poids, $statut]);
