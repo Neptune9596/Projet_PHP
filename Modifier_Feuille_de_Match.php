@@ -94,17 +94,17 @@
                 
                 <td>
                     <select name="poste">
-                        <option value="gardien" <?= $p->getPoste() == 'gardien' ? 'selected' : '' ?>>Gardien</option>
-                        <option value="défenseur" <?= $p->getPoste() == 'défenseur' ? 'selected' : '' ?>>Défenseur</option>
-                        <option value="milieu" <?= $p->getPoste() == 'milieu' ? 'selected' : '' ?>>Milieu</option>
-                        <option value="attaquant" <?= $p->getPoste() == 'attaquant' ? 'selected' : '' ?>>Attaquant</option>
+                        <option value="gardien" <?= $p->getPoste() == "gardien" ? "selected" : "" ?>>Gardien</option>
+                        <option value="défenseur" <?= $p->getPoste() == "défenseur" ? "selected" : "" ?>>Défenseur</option>
+                        <option value="milieu" <?= $p->getPoste() == "milieu" ? "selected" : "" ?>>Milieu</option>
+                        <option value="attaquant" <?= $p->getPoste() == "attaquant" ? "selected" : "" ?>>Attaquant</option>
                     </select>
                 </td>
 
                 <td>
                     <select name="etat">
-                        <option value="titulaire" <?= $p->getEtat() == 'titulaire' ? 'selected' : '' ?>>Titulaire</option>
-                        <option value="remplaçant" <?= $p->getEtat() == 'remplaçant' ? 'selected' : '' ?>>Remplaçant</option>
+                        <option value="titulaire" <?= $p->getEtat() == "titulaire" ? "selected" : "" ?>>Titulaire</option>
+                        <option value="remplaçant" <?= $p->getEtat() == "remplaçant" ? "selected" : "" ?>>Remplaçant</option>
                     </select>
                 </td>
 
