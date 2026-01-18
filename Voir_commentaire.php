@@ -100,7 +100,7 @@ error_reporting(E_ALL);
 <h3>Ajouter un commentaire</h3>
 
 <div class="form-container">
-    <form class="joueur-form" action="Voir_commentaire.php?id_joueur=<? $joueur->getId() ?>" method="post">
+    <form class="joueur-form" action="Voir_commentaire.php?id_joueur=<?= $joueur->getId() ?>" method="post">
         <label>Commentaire :</label> <input type="text" name="contenu" required>        
         <input type="submit" value="Ajouter Commentaire">
 </form>
