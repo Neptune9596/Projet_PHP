@@ -44,7 +44,7 @@ class Statistiques {
     /**
      * Récupère les stats pour TOUS les joueurs
      */
-    public static function getPlayersFullStats() {
+    public static function getJoueursFullStats() {
         $stmt = self::$pdo->query("SELECT id_joueur, nom, prenom, statut FROM Joueur");
         $joueurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -59,8 +59,8 @@ class Statistiques {
             $j['poste_prefere'] = self::getPostePrefere($id);
             
             // CORRECTION ICI : Noms de clés en français pour correspondre à Stats.php
-            $j['taux_victoire'] = self::getPlayerWinRate($id); 
-            $j['selection_consecutive'] = self::getConsecutiveSelections($id);
+            $j['taux_victoire'] = self::getTauxVictoire($id); 
+            $j['selection_consecutive'] = self::getSelections($id);
 
             $resultats[] = $j;
         }
@@ -92,7 +92,7 @@ class Statistiques {
         return $stmt->fetchColumn() ?: "Aucun";
     }
 
-    private static function getPlayerWinRate($id_joueur) {
+    private static function getTauxVictoire($id_joueur) {
         // On récupère les résultats des matchs où le joueur a participé
         $sql = "SELECT m.resultat FROM Matchs m 
                 INNER JOIN Participation p ON m.id_match = p.id_match 
@@ -113,7 +113,7 @@ class Statistiques {
         return round(($gagnes / $total) * 100, 1);
     }
 
-    public static function getConsecutiveSelections($id_joueur) {
+    public static function getSelections($id_joueur) {
         $sql = "SELECT p.etat FROM Participation p 
                 INNER JOIN Matchs m ON p.id_match = m.id_match 
                 WHERE p.id_joueur = ? 

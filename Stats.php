@@ -14,7 +14,7 @@ Statistiques::setPdo($pdo);
 
 
 $statsGlobales = Statistiques::getGlobalStats();
-$statsJoueurs = Statistiques::getPlayersFullStats();
+$statsJoueurs = Statistiques::getJoueursFullStats();
 
 ?>
 <!DOCTYPE html>
