@@ -14,21 +14,48 @@
     Joueur::setPdo($pdo);
     Participe::setPdo($pdo);
     $id_match = $_GET['id_match'];
-    $participations = Participe::getByMatch ($id_match); 
+    $participations = Participe::getByMatch ($id_match); // recuperer les participants du match
+    $disponibles = Joueur::getJoueursDisponiblesPourMatch($id_match); //recuperer liste des joueurs actifs
     
-    
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && $_POST['action'] != 'delete') {
-    $p = Participe::getById($_POST['id_participation']);
-    if ($p) {
-        $p->setPoste($_POST['poste']);
-        $p->setEtat($_POST['etat']);
-        // Optionnel : ajouter l'évaluation si le match est fini
-        if(isset($_POST['evaluation'])) $p->setEvaluation($_POST['evaluation']);
-        
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
+        $action = $_POST['action'];
+
+        switch ($action) {
+            case 'ajouter':
+                // ajouter un joueur au match
+                if (!empty($_POST['id_joueur'])) {
+                    Participe::create(
+                        $id_match, 
+                        $_POST['id_joueur'], 
+                        $_POST['poste'], 
+                        $_POST['etat']
+                        //L'evaluation sera vide
+                    );
+                }
+                break;
+
+            case 'sauvegarder':
+                // modifier une participation existante
+                $p = Participe::getById($_POST['id_participation']);
+                if ($p) {
+                    $p->setPoste($_POST['poste']);
+                    $p->setEtat($_POST['etat']);
+                    if (isset($_POST['evaluation'])) {
+                        $p->setEvaluation($_POST['evaluation']);
+                    }
+                }
+                break;
+
+            case 'supprimer':
+                // SUPPRIMER un joueur de la feuille de match
+                if (isset($_POST['id_participation'])) {
+                    Participe::delete($_POST['id_participation']);
+                }
+                break;
+        }
         header("Location: Modifier_Feuille_de_Match.php?id_match=$id_match");
         exit;
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -114,13 +141,43 @@
 
                 <td>
                     <input type="hidden" name="id_participation" value="<?= $p->getId() ?>">
-                    <input type="submit" value="Sauvegarder">
+                    <input type="submit" value="sauvegarder">
+
+                    <button type="submit" name="action" value="supprimer" 
+                    onclick="return confirm('Retirer ce joueur du match ?')">Supprimer</button>
                 </td>
             </form>
         </tr>
         <?php endforeach; ?>
     </tbody>
   </table>
+
+  <form action="Modifier_Feuille_de_Match.php" method="post" class="joueur-form">
+
+    <input type="hidden" name="id_match" value="<?= $id_match ?>">    
+    <select name="id_joueur" required>
+        <option value="">-- Sélectionner un joueur à ajouter --</option>
+        <?php foreach ($disponibles as $j): ?>
+            <option value="<?= $j->getId() ?>">
+                <?= htmlspecialchars($j->getNom() . " " . $j->getPrenom()) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+
+    <select name="poste">
+        <option value="gardien">Gardien</option>
+        <option value="défenseur">Défenseur</option>
+        <option value="milieu">Milieu</option>
+        <option value="attaquant">Attaquant</option>
+    </select>
+
+    <select name="état">
+        <option value="gardien">Titulaire</option>
+        <option value="défenseur">Remplaçant</option>
+    </select>
+
+    <button type="submit" name="action" value="ajouter">Ajouter au match</button>
+</form>
 
 </body>
 </html>

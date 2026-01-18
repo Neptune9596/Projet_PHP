@@ -56,6 +56,36 @@ class Joueur {
         return null;
     }
 
+    public static function getJoueursDisponiblesPourMatch($id_match) {
+    // Requête qui sélectionne les joueurs 'Actif'
+    // SAUF ceux qui ont déjà une ligne dans 'Participation' pour cet id_match
+    $sql = "SELECT * FROM Joueur 
+            WHERE statut = 'Actif' 
+            AND id_joueur NOT IN (
+                SELECT id_joueur FROM Participation WHERE id_match = ?
+            )
+            ORDER BY nom ASC";
+
+    $stmt = self::$pdo->prepare($sql);
+    $stmt->execute([$id_match]);
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $joueursDisponibles = [];
+    foreach ($data as $row) {
+        $joueursDisponibles[] = new Joueur(
+            $row['id_joueur'],
+            $row['nom'],
+            $row['prenom'],
+            $row['numero_licence'],
+            $row['date_naissance'],
+            $row['taille'],
+            $row['poids'],
+            $row['statut']
+        );
+    }
+    return $joueursDisponibles;
+}
+
     public function __construct($idJoueur, $nom, $prenom, $numeroLicence, $dateNaissance, $taille, $poids, $statut) {
         $this->IdJoueur = $idJoueur;
         $this->Nom = $nom;
