@@ -141,7 +141,7 @@
 
                 <td>
                     <input type="hidden" name="id_participation" value="<?= $p->getId() ?>">
-                    <input type="submit" value="Sauvegarder">
+                    <input type="submit" name="action" value="Sauvegarder">
 
                     <button type="submit" name="action" value="supprimer" 
                     onclick="return confirm('Retirer ce joueur du match ?')">Supprimer</button>
@@ -153,6 +153,7 @@
   </table>
   <h3>Ajouter un joueur à la feuille de match</h3>
 
+  <div class="form-container">
   <form action="Modifier_Feuille_de_Match.php" method="post" class="joueur-form">
 
     <input type="hidden" name="id_match" value="<?= $id_match ?>">    
@@ -177,8 +178,9 @@
         <option value="défenseur">Remplaçant</option>
     </select>
 
-    <input type="submit" value="Enregistrer">
+    <input type="submit" name="action" value="Enregistrer">
 </form>
+</div>
 
 </body>
 </html>
