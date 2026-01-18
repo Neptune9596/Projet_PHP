@@ -5,6 +5,7 @@ error_reporting(E_ALL);
     session_start();
     require "database.php";
     require "Commentaire.php";
+    require "Joueur.php";
     $pdo = Database::getConnection();
     if (!isset($_SESSION["email"])) {
     header("Location: login.php");
