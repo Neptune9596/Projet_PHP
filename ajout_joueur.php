@@ -88,7 +88,7 @@
             <option value="Suspendu">Suspendu</option>
             <option value="Absent">Absent</option>
         </select>
-        <label>Commentaire :</label> <textarea name="commentaire" rows="4"></textarea>
+        <label>Commentaire :</label> <input type=text name="commentaire" >
         <input type="submit" value="Enregistrer">
     </form>
 </div>
