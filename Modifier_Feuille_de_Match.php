@@ -13,8 +13,9 @@
 }      
     Joueur::setPdo($pdo);
     Participe::setPdo($pdo);
-    $participations = Participe::getByMatch(); 
     $id_match = $_GET['id_match'];
+    $participations = Participe::getByMatch ($id_match); 
+    
     
     if ($_SERVER["REQUEST_METHOD"] === "POST" && $_POST['action'] != 'delete') {
     $p = Participe::getById($_POST['id_participation']);
