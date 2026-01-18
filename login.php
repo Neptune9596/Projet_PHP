@@ -2,27 +2,24 @@
     session_start();
     require "database.php";
     $pdo = Database::getConnection();
+
     $email = $_POST['email'] ?? "";
     $mdp   = $_POST['mdp'] ?? "";
 
     $erreurlogin = "";
-     
+
     if ($email !== "" && $mdp !== "") {
-        $stmt = $pdo->prepare("SELECT * FROM coach WHERE email = ? AND mdp = ?");
-        $stmt->execute([$email, $mdp]);
-
+        $stmt = $pdo->prepare("SELECT * FROM coach WHERE email = ?");
+        $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($user) {
+        if ($user && password_verify($mdp, $user["mdp"])) {
             $_SESSION["email"] = $user["email"];
-
             header("Location: accueil.php");
             exit();
-        }
-        else {
+        } else {
             $erreurlogin = "Les identifiants que vous avez fournis sont incorrects.";
         }
-    }
-    else if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    } else if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $erreurlogin = "Veuillez remplir tous les champs.";
     }
 ?>
