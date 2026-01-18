@@ -66,6 +66,7 @@
     <th>Poids</th>
     <th>Statut</th>
     <th>Actions</th>
+    <th>Commentaires</th>
   </tr>
 
   <?php if (count($joueurs) > 0): ?>
@@ -80,6 +81,8 @@
             <td><?= htmlspecialchars($joueur->getStatut()) ?></td>
             <td>
                 <a href="modifier_joueur.php?id_joueur=<?= $joueur->getId() ?>" class="btn-modif">Modifier/Supprimer</a>
+            </td>
+            <td>
                 <a href="Voir_commentaire.php?id_joueur=<?= $joueur->getId() ?>" class="btn-modif">Voir/Ajouter Commentaire(s)</a>
             </td>
       <?php endforeach; ?>
