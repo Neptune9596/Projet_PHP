@@ -21,20 +21,20 @@
         $action = $_POST['action'];
 
         switch ($action) {
-            case 'ajouter':
+            case 'Enregistrer':
                 // ajouter un joueur au match
                 if (!empty($_POST['id_joueur'])) {
                     Participe::create(
                         $id_match, 
                         $_POST['id_joueur'], 
                         $_POST['poste'], 
-                        $_POST['etat']
+                        $_POST['état']
                         //L'evaluation sera vide
                     );
                 }
                 break;
 
-            case 'sauvegarder':
+            case 'Sauvegarder':
                 // modifier une participation existante
                 $p = Participe::getById($_POST['id_participation']);
                 if ($p) {
@@ -116,7 +116,6 @@
             $j = Joueur::getJoueurById($p->getIdJoueur());
         ?>
         <tr>
-            <div class="form-container">
             <form class="joueur-form" method="post">
                 <td><?= htmlspecialchars($j->getPrenom() . " " . $j->getNom()) ?></td>
                 
@@ -142,19 +141,18 @@
 
                 <td>
                     <input type="hidden" name="id_participation" value="<?= $p->getId() ?>">
-                    <input type="submit" value="sauvegarder">
+                    <input type="submit" value="Sauvegarder">
 
                     <button type="submit" name="action" value="supprimer" 
                     onclick="return confirm('Retirer ce joueur du match ?')">Supprimer</button>
                 </td>
             </form>
-            </div>
         </tr>
         <?php endforeach; ?>
     </tbody>
   </table>
-<div class="form-container">
   <h3>Ajouter un joueur à la feuille de match</h3>
+
   <form action="Modifier_Feuille_de_Match.php" method="post" class="joueur-form">
 
     <input type="hidden" name="id_match" value="<?= $id_match ?>">    
@@ -179,9 +177,8 @@
         <option value="défenseur">Remplaçant</option>
     </select>
 
-    <button type="submit" name="action" value="ajouter">Ajouter au match</button>
+    <input type="submit" value="Enregistrer">
 </form>
-</div>
 
 </body>
 </html>
