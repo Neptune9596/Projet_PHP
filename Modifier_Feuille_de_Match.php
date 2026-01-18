@@ -6,6 +6,7 @@
     require "database.php";
     require "Joueur.php";
     require "Participe.php";
+    require "Partie.php";
     $pdo = Database::getConnection();
     if (!isset($_SESSION["email"])) {
     header("Location: login.php");
@@ -16,7 +17,7 @@
     // On cherche l'ID dans GET ou POST, sinon on met null
     $id_match = $_GET['id_match'] ?? $_POST['id_match'] ?? null;
 
-    // Si on n'a vraiment pas d'ID, on ne peut pas afficher la page
+    // Si on n'a pas d'ID, on ne peut pas afficher la page
     if (!$id_match) {
     header("Location: liste_match.php"); 
     exit();
@@ -25,7 +26,7 @@
     $participations = Participe::getByMatch ($id_match); // recuperer les participants du match
     $disponibles = Joueur::getJoueursDisponiblesPourMatch($id_match); //recuperer liste des joueurs actifs
     $match = Partie::getMatchById($id_match);
-    
+
     if ($match ->getDate() < date("Y-m-d")) {
         // Rediriger si le match est passé
         header("Location: feuille_match.php");
