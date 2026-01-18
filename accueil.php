@@ -59,7 +59,7 @@
         <div class="match-content">
             <h2>Match à Barcelone</h2>
             <p>
-                Ce match oppose deux équipes de haut niveau dans une rencontre spectaculaire. Les joueurs ont démontré une technique exceptionnelle et une détermination inébranlable sur le terrain. La première mi-temps a été marquée par des échanges intenses, avec des occasions de part et d'autre du terrain. En seconde période, le rythme s'est accéléré et les supporters ont vibré à chaque action. Un événement sportif inoubliable qui restera gravé dans les mémoires de tous les passionnés de football.
+                <strong>Ce match oppose deux équipes de haut niveau dans une rencontre spectaculaire. Les joueurs ont démontré une technique exceptionnelle et une détermination inébranlable sur le terrain. La première mi-temps a été marquée par des échanges intenses, avec des occasions de part et d'autre du terrain. En seconde période, le rythme s'est accéléré et les supporters ont vibré à chaque action. Un événement sportif inoubliable qui restera gravé dans les mémoires de tous les passionnés de football.</strong>
             </p>
         </div>
     </div>
