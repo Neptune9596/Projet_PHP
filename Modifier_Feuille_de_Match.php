@@ -24,8 +24,14 @@
 
     $participations = Participe::getByMatch ($id_match); // recuperer les participants du match
     $disponibles = Joueur::getJoueursDisponiblesPourMatch($id_match); //recuperer liste des joueurs actifs
+    $match = Partie::getMatchById($id_match);
     
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
+    if ($match ->getDate() < date("Y-m-d")) {
+        // Rediriger si le match est passé
+        header("Location: feuille_match.php");
+        exit();
+    }
+    else if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
         $action = $_POST['action'];
 
         switch ($action) {
