@@ -36,6 +36,7 @@ error_reporting(E_ALL);
         header("Location: liste_joueur.php");
         exit;
     } 
+    }
 
 ?>
 
