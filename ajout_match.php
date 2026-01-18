@@ -64,7 +64,7 @@
 <div class="form-container">
 <form class="joueur-form" method="post">
     <label>Date du match :</label>
-    <input type="date" name="date_match" required>
+    <input type="date" name="date_match" min="<?= date('Y-m-d') ?>" value="<?= date('Y-m-d') ?>" required>
     <label>Heure du match :</label>
     <input type="time" name="heure" required>
     <label>Nom adversaire :</label>
