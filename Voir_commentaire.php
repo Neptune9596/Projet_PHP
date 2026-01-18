@@ -21,21 +21,20 @@ error_reporting(E_ALL);
     $joueur = Joueur::getJoueurById($id);
     $commentaires = Commentaire::getByJoueur($id);
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
+    // Suppression du commentaire
     if ($id_supprimer) {
         Commentaire::delete($id_supprimer);
         header("Location: Voir_commentaire.php?id_joueur=" . $id);
         exit;
-    }   
-    else {
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {  
         Commentaire::create(
             $id,
             $_POST['contenu']
         );
         header("Location: liste_joueur.php");
         exit;
-    } 
     }
 
 ?>
@@ -81,7 +80,7 @@ error_reporting(E_ALL);
     </nav>
     </header>
 
-<h3>Liste des commentaires pour <?= $joueur->getNom() ?> , <?= $joueur->getPrenom() ?> </h3>
+<h3>Liste des commentaires pour <?= $joueur->getNom() ?> <?= $joueur->getPrenom() ?> </h3>
 
 <table>
   <tr>
