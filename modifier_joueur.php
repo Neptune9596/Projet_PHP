@@ -93,12 +93,11 @@
     <input type="number" name="poids" value="<?= htmlspecialchars($joueur->getPoids()) ?>">
     <label>Statut :</label>
     <select name="statut">
-        <option value="">-- Sélectionner un statut --</option>
-        <option value="actif"     <?= $joueur['statut']=="actif" ? "selected" : "" ?>>Actif</option>
-        <option value="blessé"    <?= $joueur['statut']=="blessé" ? "selected" : "" ?>>Blessé</option>
-        <option value="suspendu"  <?= $joueur['statut']=="suspendu" ? "selected" : "" ?>>Suspendu</option>
-        <option value="absent"    <?= $joueur['statut']=="absent" ? "selected" : "" ?>>Absent</option>
-    </select>
+        <option value="actif"    <?= $joueur->getStatut() == "actif" ? "selected" : "" ?>>Actif</option>
+        <option value="blessé"   <?= $joueur->getStatut() == "blessé" ? "selected" : "" ?>>Blessé</option>
+        <option value="suspendu" <?= $joueur->getStatut() == "suspendu" ? "selected" : "" ?>>Suspendu</option>
+        <option value="absent"   <?= $joueur->getStatut() == "absent" ? "selected" : "" ?>>Absent</option>
+</select>
     <input type="submit" value="Enregistrer les modifications">
 </form>
 <form method="post" action="modifier_joueur.php?id_joueur=<?= $joueur->getId() ?>" class="delete-form">
