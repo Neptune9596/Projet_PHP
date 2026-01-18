@@ -69,7 +69,7 @@
             <?php foreach ($matchs as $m): ?>
             <tr>
                 <td><?= htmlspecialchars($m->getDate()) ?></td>
-                <td><?= htmlspecialchars($m->getNomAdv()) ?></td>>
+                <td><?= htmlspecialchars($m->getNomAdv()) ?></td>
                 <td><?= htmlspecialchars($m->getResultat()) ?></td>
                 <td>
                     <a href="Modifier_Feuille_de_Match.php?id_match=<?= $m->getId() ?>" class="btn-modif">Visualiser/Modifier</a>
