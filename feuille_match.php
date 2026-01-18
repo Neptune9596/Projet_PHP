@@ -72,7 +72,7 @@
                 <td><?= htmlspecialchars($m->getNomAdv()) ?></td>>
                 <td><?= htmlspecialchars($m->getResultat()) ?></td>
                 <td>
-                    <a href="Modifier_Feuille_de_Match.php?id_match=<?= $matchs->getId() ?>" class="btn-modif">Visualiser/Modifier</a>
+                    <a href="Modifier_Feuille_de_Match.php?id_match=<?= $m->getId() ?>" class="btn-modif">Visualiser/Modifier</a>
                 </td>
             </tr>
             <?php endforeach; ?>

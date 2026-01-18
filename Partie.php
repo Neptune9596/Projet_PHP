@@ -15,7 +15,6 @@ class Partie {
 
     // Méthode pour récupérer tous les matchs
     public static function getTousLesMatchs(){
-        // Correction : Matchs avec un 'M' majuscule
         $stmt = self::$pdo->query("SELECT * FROM Matchs");
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -34,7 +33,6 @@ class Partie {
     }
 
     public static function getMatchById($id) {
-        // Correction : Matchs avec un 'M' majuscule
         $stmt = self::$pdo->prepare("SELECT * FROM Matchs WHERE id_match = ?");
         $stmt->execute([$id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
