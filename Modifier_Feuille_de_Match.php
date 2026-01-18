@@ -116,6 +116,7 @@
             <th>Joueur</th>
             <th>Poste</th>
             <th>Note</th>
+            <th>Etat</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -140,6 +141,12 @@
                     <input type="number" name="evaluation" value="<?= $p->getEvaluation() ?>" min="0" max="5" style="width: 50px;">
                 </td>
                 <td>
+                <select name="etat">
+                    <option value="titulaire" <?= strtolower($p->getEtat()) == "titulaire" ? "selected" : "" ?>>Titulaire</option>
+                    <option value="remplaçant" <?= (strtolower($p->getEtat()) == "remplaçant" || strtolower($p->getEtat()) == "remplacant") ? "selected" : "" ?>>Remplaçant</option>
+                </select>
+                </td>
+                <td>
                     <input type="hidden" name="id_participation" value="<?= $p->getId() ?>">
                     <input type="hidden" name="id_match" value="<?= $id_match ?>">
                     <input type="submit" name="action" value="Sauvegarder">
@@ -158,6 +165,7 @@
             <th>Joueur</th>
             <th>Poste</th>
             <th>Note</th>
+            <th>Etat</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -183,6 +191,12 @@
                 <td>
                     <input type="number" name="evaluation" value="<?= $p->getEvaluation() ?>" min="0" max="5" style="width: 50px;">
                 </td>
+                <td>
+                <select name="etat">
+                    <option value="titulaire" <?= strtolower($p->getEtat()) == "titulaire" ? "selected" : "" ?>>Titulaire</option>
+                    <option value="remplaçant" <?= (strtolower($p->getEtat()) == "remplaçant" || strtolower($p->getEtat()) == "remplacant") ? "selected" : "" ?>>Remplaçant</option>
+                </select>
+                 </td>
                 <td>
                     <input type="hidden" name="id_participation" value="<?= $p->getId() ?>">
                     <input type="hidden" name="id_match" value="<?= $id_match ?>">
