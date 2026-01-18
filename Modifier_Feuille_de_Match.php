@@ -116,6 +116,7 @@
             $j = Joueur::getJoueurById($p->getIdJoueur());
         ?>
         <tr>
+            <div class="form-container">
             <form class="joueur-form" method="post">
                 <td><?= htmlspecialchars($j->getPrenom() . " " . $j->getNom()) ?></td>
                 
@@ -147,11 +148,13 @@
                     onclick="return confirm('Retirer ce joueur du match ?')">Supprimer</button>
                 </td>
             </form>
+            </div>
         </tr>
         <?php endforeach; ?>
     </tbody>
   </table>
-
+<div class="form-container">
+  <h3>Ajouter un joueur à la feuille de match</h3>
   <form action="Modifier_Feuille_de_Match.php" method="post" class="joueur-form">
 
     <input type="hidden" name="id_match" value="<?= $id_match ?>">    
@@ -178,6 +181,7 @@
 
     <button type="submit" name="action" value="ajouter">Ajouter au match</button>
 </form>
+</div>
 
 </body>
 </html>
