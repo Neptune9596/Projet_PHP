@@ -67,7 +67,7 @@
 <?php endif; ?>
 
 <div class="form-container">
-<form class="player-form" method="post">
+<form class="joueur-form" method="post">
     <label>Date du match :</label>
     <input type="date" name="date_match" required>
     <label>Heure du match :</label>
