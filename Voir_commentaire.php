@@ -17,10 +17,18 @@ error_reporting(E_ALL);
     Joueur::setPdo($pdo);
     Commentaire::setPdo($pdo);
     $id = $_GET['id_joueur'];
+    $id_supprimer = $_GET['supprimer_com'] ?? null;
     $joueur = Joueur::getJoueurById($id);
     $commentaires = Commentaire::getByJoueur($id);
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    if ($id_supprimer) {
+        Commentaire::delete($id_supprimer);
+        header("Location: Voir_commentaire.php?id_joueur=" . $id);
+        exit;
+    }   
+    else {
         Commentaire::create(
             $id,
             $_POST['contenu']
@@ -72,7 +80,7 @@ error_reporting(E_ALL);
     </nav>
     </header>
 
-<h3>Liste des commentaires pour <? $joueur->getNom() ?> , <? $joueur->getPrenom() ?> </h3>
+<h3>Liste des commentaires pour <?= $joueur->getNom() ?> , <?= $joueur->getPrenom() ?> </h3>
 
 <table>
   <tr>
@@ -87,7 +95,8 @@ error_reporting(E_ALL);
             <td><?= htmlspecialchars($commentaire->getDate_Commentaire()) ?></td>
             <td><?= htmlspecialchars($commentaire->getContenu()) ?></td>
             <td>
-                <a href="modifier_joueur.php?id_joueur=<?= $joueur->getId() ?>" class="btn-modif">Supprimer</a>
+                <a href="Voir_commentaire.php?id_joueur=<?= $joueur->getId() ?>&supprimer_com=<?= $commentaire->getID() ?>" class="delete-bouton"
+                onclick="return confirm('Attention : Cette action est irréversible. Confirmer ?')">Supprimer</a>
             </td>
       <?php endforeach; ?>
   <?php else: ?>
