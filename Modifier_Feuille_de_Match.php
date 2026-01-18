@@ -89,7 +89,7 @@
             $j = Joueur::getJoueurById($p->getIdJoueur());
         ?>
         <tr>
-            <form method="post">
+            <form class="joueur-form" method="post">
                 <td><?= htmlspecialchars($j->getPrenom() . " " . $j->getNom()) ?></td>
                 
                 <td>
