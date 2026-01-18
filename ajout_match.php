@@ -71,8 +71,6 @@
     <input type="text" name="nom_adversaire" required>
     <label>Lieu de la rencontre :</label>
     <input type="text" name="lieu_rencontre" required>
-    <label>Resultat :</label>
-    <input type="text" name="resultat" readonly>
     <input type="submit" value="Créer le match" class="submit-button">
 </form>
 </div>

@@ -30,7 +30,13 @@ a:hover {
   color: #0056b3;
 }
 
-h1,
+h1{
+  font-family: Montserrat;
+  color: #34495e;
+  margin-top: 75px;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
 h2 {
   font-family: Montserrat;
   color: #34495e;

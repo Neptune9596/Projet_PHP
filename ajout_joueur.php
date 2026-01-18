@@ -84,6 +84,6 @@
             <option value="Absent">Absent</option>
         </select>
         <input type=hidden name="commentaire" >
-        <input type="submit" value="Enregistrer">class="joueur-form"
+        <input type="submit" value="Enregistrer">
     </form>
 </div>
