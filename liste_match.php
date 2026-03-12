@@ -2,7 +2,7 @@
     session_start();
     require "database.php";
     require "Partie.php";
-    $pdo = Database::getConnection();
+    $pdo = Database::getConnection(); 
     
     //On garde le token dans notre session ou on redirige vers le site d'authentification
     if (isset($_GET['token'])) {
