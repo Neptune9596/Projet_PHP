@@ -40,8 +40,49 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     exit();
     }
 }
+?>
+<?php   
+session_start();
+require "database.php";
+require "Partie.php";
+$pdo = Database::getConnection();
+if (!isset($_SESSION["email"])) {
+    header("Location: login.php");
+    exit();
+}
 
+if (!isset($_GET["id_match"])) {
+    exit("Erreur, ce match n'existe pas.");
+}
+$id = $_GET['id_match'];
+Partie::setPdo($pdo);
+$match = Partie::getMatchById($id);
 
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    //Bloquer la modification/suppression des matchs passés
+    $dateMatchComplete = new DateTime($match->getDate() . ' ' . $match->getHeure());
+    $maintenant = new DateTime();
+
+    if ($dateMatchComplete < $maintenant && $_POST['resultat'] === $match->getResultat()) {
+        header("Location: liste_match.php");
+        exit();
+    }
+
+    if (isset($_POST['action']) && $_POST['action'] === 'delete') {
+        Partie::delete($id);
+        header("Location: liste_match.php");
+        exit();
+    }
+    else {
+    $match->setDateMatch($_POST['date_match']);
+    $match->setHeureMatch($_POST['heure']);
+    $match->setNomAdversaire($_POST['nom_adversaire']);
+    $match->setLieuDeRencontre($_POST['lieu_rencontre']);
+    $match->setResultat($_POST['resultat']);
+    header("Location: liste_match.php");
+    exit();
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
