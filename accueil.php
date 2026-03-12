@@ -13,7 +13,6 @@
             header("Location: accueil.php"); 
             exit();
         } else {
-            die("Accès refusé par le Site A.");
             header("Location: https://authks.page.gd/");
         }
     }
