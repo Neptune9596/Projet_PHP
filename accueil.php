@@ -17,7 +17,7 @@
         }
     }
     if (!isset($_SESSION['user_token'])) {
-        header("Location: https://site-a.com/login.php");
+        header("Location: https://authks.page.gd/");
         exit();
     }
     
