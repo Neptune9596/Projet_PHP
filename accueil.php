@@ -51,7 +51,7 @@
         </nav>
     </header>
     
-    <h1>Description de Match</h1>
+    <h1>Description des Match</h1>
     <div class="match-container">
         <div class="match-image">
             <img src="foot.jpg" alt="Match de foot">
@@ -89,4 +89,5 @@
   </table>
 
 </body>
+
 </html>
