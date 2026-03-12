@@ -3,14 +3,14 @@
     require "database.php";
     require "Joueur.php";
     $pdo = Database::getConnection();
-    
+
     //On garde le token dans notre session ou on redirige vers le site d'authentification
     if (isset($_GET['token'])) {
         $token = $_GET['token'];
         $reponse = file_get_contents("https://authks.page.gd/verif.php?token=" . $token);
         if ($reponse === "TRUE") {
             $_SESSION['user_token'] = $token;
-            header("Location: accueil.php"); 
+            header("Location: ajout_joueur.php"); 
             exit();
         } else {
             header("Location: https://authks.page.gd/");

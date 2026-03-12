@@ -9,7 +9,7 @@
         $reponse = file_get_contents("https://authks.page.gd/verif.php?token=" . $token);
         if ($reponse === "TRUE") {
             $_SESSION['user_token'] = $token;
-            header("Location: accueil.php"); 
+            header("Location: feuille_match.php"); 
             exit();
         } else {
             header("Location: https://authks.page.gd/");
