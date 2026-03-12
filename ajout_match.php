@@ -3,10 +3,22 @@
     require "database.php";
     require "Partie.php";
     $pdo = Database::getConnection();
-    if (!isset($_SESSION["email"])) {
-    header("Location: login.php");
-    exit();
-}
+    //On garde le token dans notre session ou on redirige vers le site d'authentification
+    if (isset($_GET['token'])) {
+        $token = $_GET['token'];
+        $reponse = file_get_contents("https://authks.page.gd/verif.php?token=" . $token);
+        if ($reponse === "TRUE") {
+            $_SESSION['user_token'] = $token;
+            header("Location: accueil.php"); 
+            exit();
+        } else {
+            header("Location: https://authks.page.gd/");
+        }
+    }
+    if (!isset($_SESSION['user_token'])) {
+        header("Location: https://authks.page.gd/");
+        exit();
+    }
     Partie::setPdo($pdo);
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $matchs = Partie::create(
@@ -36,7 +48,7 @@
             $matchs = Partie::getTousLesMatchs();
             $data = json_decode(file_get_contents("php://input"), true);
             $match = new Partie(
-                "id" : count($matchs)+1,
+                "id" : count($matchs) + 1,
                 "date_match" : $data["date_match"],
                 "heure" : $data["heure"],
                 "nom_adversaire" : $data["nom_advertise"],
