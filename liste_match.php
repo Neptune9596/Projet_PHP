@@ -1,15 +1,26 @@
 <?php
-    session_start();
-    require "database.php";
-    require "Partie.php";
-    $pdo = Database::getConnection();
-    if (!isset($_SESSION["email"])) {
+session_start();
+require "database.php";
+require "Partie.php";
+$pdo = Database::getConnection();
+
+// redirection si non connecté
+if (!isset($_SESSION["email"])) {
     header("Location: login.php");
     exit();
 }
 
-    Partie::setPdo($pdo);
-    $matchs = Partie::getTousLesMatchs();
+Partie::setPdo($pdo);
+$matchs = Partie::getTousLesMatchs();
+
+// si le client demande du JSON ou fournit ?api, renvoyer API
+$accept = $_SERVER['HTTP_ACCEPT'] ?? '';
+if (strpos($accept, 'application/json') !== false || isset($_GET['api'])) {
+    header('Content-Type: application/json');
+    http_response_code(200);
+    echo json_encode(['matchs' => $matchs]);
+    exit();
+}
 ?>
 
 <!DOCTYPE html>

@@ -20,33 +20,6 @@
     }
 ?>
 
-<?php
-    // API ajouter un match
-    session_start();
-    require "database.php";
-    require "Partie.php";
-    $pdo = Database::getConnection();
-    if (!isset($_SESSION["email"])) {
-    header("Location: login.php");
-    exit();
-}
-    Partie::setPdo($pdo);
-    if ($_SERVER["REQUEST_METHOD"]=== "POST")
-        {
-            $matchs = Partie::getTousLesMatchs();
-            $data = json_decode(file_get_contents("php://input"), true);
-            $match = new Partie(
-                "id" : count($matchs)+1,
-                "date_match" : $data["date_match"],
-                "heure" : $data["heure"],
-                "nom_adversaire" : $data["nom_advertise"],
-                "lieu_rencontre" : $data["lieu_rencontre"]
-            )
-            $matchs[]= $match;
-        }
-    echo json_encode("Creer le match avec succes!");
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
