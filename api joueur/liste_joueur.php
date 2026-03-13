@@ -2,6 +2,7 @@
     session_start();
     require "database.php";
     require "Joueur.php";
+    require "api joueur/joueur.php";
     $pdo = Database::getConnection();
     
     //On garde le token dans notre session ou on redirige vers le site d'authentification
@@ -22,7 +23,14 @@
     }
 
     Joueur::setPdo($pdo);
+    // récuperer tous les joueurs via la modèle Joueur
     $joueurs = Joueur::getTouslesJoueurs();
+    // convertir en DTO Joueur pour le transfert API/vue
+    $joueurDTOs = array_map(function($j)
+    {
+        return new Joueur($j->getNom(), $j->getPrenom(), $j->getNumeroLicence(), $j->getDateNaisssance(), $j->getTaille(), $j->getPoids(), $j->getStatut(), $j->getId());
+    }, $joueurs);
+
     // si le client demande du JSON ou fournit ?api, renvoyer API
     $accept = $_SERVER['HTTP_ACCEPT'] ?? '';
     if (strpos($accept, 'application/json') !== false || isset($_GET['api'])) {

@@ -1,4 +1,5 @@
 <?php
+    // Objet Joueur DTO
     class Joueur
     {
         public int $IdJoueur;

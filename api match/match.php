@@ -1,4 +1,5 @@
 <?php
+    //Objet Match DTO
     class Match{
         public static $pdo;
         public int $IdMatch;

@@ -2,6 +2,7 @@
 session_start();
 require "database.php";
 require "Partie.php";
+require "api match/match.php";
 $pdo = Database::getConnection();
 if (!isset($_SESSION["email"])) {
     header("Location: login.php");

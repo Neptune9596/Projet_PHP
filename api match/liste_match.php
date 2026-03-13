@@ -2,6 +2,7 @@
     session_start();
     require "database.php";
     require "Partie.php";
+    require "api match/match.php";
     $pdo = Database::getConnection();
     $data = json_decode(file_get_contents('php://input'));
     // redirection si non connecté
@@ -11,7 +12,13 @@
 }
 
     Partie::setPdo($pdo);
+    // récuperer tous les matchs via la modèle Partie
     $matchs = Partie::getTousLesMatchs();
+    // convertir en DTO Match pour le transfert API/vue
+    $matchDTOs = array_map(function($m)
+    {
+        return new Match($m->getDate(), $m->getHeure(), $m->getNomAdv(), $m->getResultat(), $m->getLieu(), $m->getId());
+    }, $matchs);
     // si le client demande du json , renvoyer API
     $accept = $_SERVER['HTTP_ACCEPT'] ?? '';
     if (strpos($accept, 'application/json') !== false || isset($_GET['api'])) {
@@ -73,8 +80,8 @@
         </tr>
     </thead>
     <tbody>
-        <?php if (!empty($matchs)): ?>
-            <?php foreach ($matchs as $m): ?>
+        <?php if (!empty($matchDTOs)): ?>
+            <?php foreach ($matchDTOs as $m): ?>
             <tr>
                 <td><?= htmlspecialchars($m->getDate()) ?></td>
                 <td><?= htmlspecialchars($m->getHeure()) ?></td>
