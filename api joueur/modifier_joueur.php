@@ -1,0 +1,127 @@
+<?php
+    session_start();
+    require "database.php";
+    require "Joueur.php";
+    $pdo = Database::getConnection();
+    
+    //On garde le token dans notre session ou on redirige vers le site d'authentification
+    if (isset($_GET['token'])) {
+        $token = $_GET['token'];
+        $reponse = file_get_contents("https://authks.page.gd/verif.php?token=" . $token);
+        if ($reponse === "TRUE") {
+            $_SESSION['user_token'] = $token;
+            header("Location: modifier_joueur.php"); 
+            exit();
+        } else {
+            header("Location: https://authks.page.gd/");
+        }
+    }
+    if (!isset($_SESSION['user_token'])) {
+        header("Location: https://authks.page.gd/");
+        exit();
+    }
+
+
+
+    if (!isset($_GET["id_joueur"])) {
+    exit("Erreur, ce joueur n'existe pas.");
+}
+    Joueur::setPdo($pdo);
+    $id = $_GET['id_joueur'];
+    $joueur = Joueur::getJoueurById($id);
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (isset($_POST['action']) && $_POST['action'] === 'delete') {
+        $joueur->delete();
+        http_response_code(2002);
+        header("Location: liste_joueur.php");
+        echo json_encode(['message'=> 'Joueur supprimé avec succès']);
+        exit();
+    }
+    else {
+        $joueur->setNom($_POST['nom']);
+        $joueur->setPrenom($_POST['prenom']);
+        $joueur->setDateNaissance($_POST['naissance']);
+        $joueur->setTaille($_POST['taille']);
+        $joueur->setPoids($_POST['poids']);
+        $joueur->setStatut($_POST['statut']);
+        http_response_code(200);
+        echo json_encode(['message'=> 'Joueur modifié avec succès']);
+        header("Location: liste_joueur.php");
+        exit;
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Modifier un joueur</title>
+</head>
+
+<body>
+        <header>
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="accueil.php" class="nav-link">Accueil</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link">Joueur</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="ajout_joueur.php" class="dropdown-link">Ajouter un joueur</a></li>
+                        <li><a href="liste_joueur.php" class="dropdown-link">Liste des joueurs</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link">Matchs</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="ajout_match.php" class="dropdown-link">Créer un match</a></li>
+                        <li><a href="liste_match.php" class="dropdown-link">Liste des matchs</a></li>
+                        <li><a href="feuille_match.php" class="dropdown-link">Feuille de match</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="Stats.php" class="nav-link">Statistiques</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+<h3>Modifier un joueur</h3>
+
+<div class="form-container">
+
+<form class="joueur-form" method="post" action="modifier_joueur.php?id_joueur=<?= $joueur->getId() ?>">
+    <label>Nom :</label>
+    <input type="text" name="nom" value="<?= htmlspecialchars($joueur->getNom()) ?>" required>
+    <label>Prénom :</label>
+    <input type="text" name="prenom" value="<?= htmlspecialchars($joueur->getPrenom()) ?>" required>
+    <label>Numéro de licence :</label>
+    <input type="number" name="licence" value="<?= htmlspecialchars($joueur->getNumeroLicence()) ?>">
+    <label>Date de naissance :</label>
+    <input type="date" name="naissance" value="<?= htmlspecialchars($joueur->getDateNaisssance()) ?>" required>
+    <label>Taille (cm) :</label>
+    <input type="number" name="taille" value="<?= htmlspecialchars($joueur->getTaille()) ?>">
+    <label>Poids (kg) :</label>
+    <input type="number" name="poids" value="<?= htmlspecialchars($joueur->getPoids()) ?>">
+    <label>Statut :</label>
+    <select name="statut">
+        <option value="actif"    <?= $joueur->getStatut() == "actif" ? "selected" : "" ?>>Actif</option>
+        <option value="blessé"   <?= $joueur->getStatut() == "blessé" ? "selected" : "" ?>>Blessé</option>
+        <option value="suspendu" <?= $joueur->getStatut() == "suspendu" ? "selected" : "" ?>>Suspendu</option>
+        <option value="absent"   <?= $joueur->getStatut() == "absent" ? "selected" : "" ?>>Absent</option>
+</select>
+    <input type="submit" value="Enregistrer les modifications">
+</form>
+<form method="post" action="modifier_joueur.php?id_joueur=<?= $joueur->getId() ?>" class="delete-form">
+        <input type="hidden" name="action" value="delete">
+        <input type="submit" class="delete-bouton" value="Supprimer le joueur"
+               onclick="return confirm('Attention : Cette action est irréversible. Confirmer ?')">
+</form>
+</div>
+</body>
+</html>

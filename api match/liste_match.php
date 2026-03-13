@@ -17,7 +17,7 @@
     if (strpos($accept, 'application/json') !== false || isset($_GET['api'])) {
     header('Content-Type: application/json');
     http_response_code(200);
-    echo json_encode(['message' => 'API de création de match']);
+    echo json_encode(['message' => 'API de liste des matchs', 'matchs'=>$matchs]);
     exit();
 }
     

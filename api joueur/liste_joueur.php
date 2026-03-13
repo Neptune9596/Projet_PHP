@@ -1,0 +1,112 @@
+<?php
+    session_start();
+    require "database.php";
+    require "Joueur.php";
+    $pdo = Database::getConnection();
+    
+    //On garde le token dans notre session ou on redirige vers le site d'authentification
+    if (isset($_GET['token'])) {
+        $token = $_GET['token'];
+        $reponse = file_get_contents("https://authks.page.gd/verif.php?token=" . $token);
+        if ($reponse === "TRUE") {
+            $_SESSION['user_token'] = $token;
+            header("Location: liste_joueur.php"); 
+            exit();
+        } else {
+            header("Location: https://authks.page.gd/");
+        }
+    }
+    if (!isset($_SESSION['user_token'])) {
+        header("Location: https://authks.page.gd/");
+        exit();
+    }
+
+    Joueur::setPdo($pdo);
+    $joueurs = Joueur::getTouslesJoueurs();
+    // si le client demande du JSON ou fournit ?api, renvoyer API
+    $accept = $_SERVER['HTTP_ACCEPT'] ?? '';
+    if (strpos($accept, 'application/json') !== false || isset($_GET['api'])) {
+        header('Content-Type: application/json');
+        http_resonse_code(200);
+        echo json_encode(['message'=> 'API de liste des joueurs', 'joueurs'=>$joueurs]);
+        exit();
+    }
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Liste des joueurs</title>
+</head>
+
+<body>
+        <header>
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="accueil.php" class="nav-link">Accueil</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link">Joueur</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="ajout_joueur.php" class="dropdown-link">Ajouter un joueur</a></li>
+                        <li><a href="liste_joueur.php" class="dropdown-link">Liste des joueurs</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link">Matchs</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="ajout_match.php" class="dropdown-link">Créer un match</a></li>
+                        <li><a href="liste_match.php" class="dropdown-link">Liste des matchs</a></li>
+                        <li><a href="feuille_match.php" class="dropdown-link">Feuille de match</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="Stats.php" class="nav-link">Statistiques</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+<h3>Liste des joueurs détaillé</h3>
+
+<table>
+  <tr>
+    <th>Nom</th>
+    <th>Prenom</th>
+    <th>Numero de Licence</th>
+    <th>Date de naissance</th>
+    <th>Taille</th>
+    <th>Poids</th>
+    <th>Statut</th>
+    <th>Actions</th>
+    <th>Commentaires</th>
+  </tr>
+
+  <?php if (count($joueurs) > 0): ?>
+      <?php foreach ($joueurs as $joueur): ?>
+          <tr>
+            <td><?= htmlspecialchars($joueur->getNom()) ?></td>
+            <td><?= htmlspecialchars($joueur->getPrenom()) ?></td>
+            <td><?= htmlspecialchars($joueur->getNumeroLicence()) ?></td>
+            <td><?= htmlspecialchars($joueur->getDateNaisssance()) ?></td>
+            <td><?= htmlspecialchars($joueur->getTaille()) ?></td>
+            <td><?= htmlspecialchars($joueur->getPoids()) ?></td>
+            <td><?= htmlspecialchars($joueur->getStatut()) ?></td>
+            <td>
+                <a href="modifier_joueur.php?id_joueur=<?= $joueur->getId() ?>" class="btn-modif">Modifier/Supprimer</a>
+            </td>
+            <td>
+                <a href="Voir_commentaire.php?id_joueur=<?= $joueur->getId() ?>" class="btn-modif">Voir/Ajouter Commentaire(s)</a>
+            </td>
+      <?php endforeach; ?>
+  <?php else: ?>
+      <tr>
+          <td colspan="3" style="text-align:center;">Aucun joueur dans l'équipe.</td>
+      </tr>
+  <?php endif; ?>
+  </table>
+
+</body>
+</html>

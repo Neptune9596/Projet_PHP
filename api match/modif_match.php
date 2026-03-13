@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($dateMatchComplete < $maintenant && $data['resultat'] === $match->getResultat()) {
         http_response_code(403);
+        header("Location: liste_match.php");
         echo json_encode(['message' => 'Match passé, modification non autorisée']);
         exit();
     }
@@ -42,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $match->setResultat($data['resultat']);
     http_response_code(200);
     echo json_encode(['message' => 'Match modifié avec succès']);
+    header("Location: liste_match.php");
     exit();
     }
 }
