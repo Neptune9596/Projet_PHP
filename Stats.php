@@ -5,8 +5,20 @@ require "Statistiques.php";
 
 $pdo = Database::getConnection();
 
-if (!isset($_SESSION["email"])) {
-    header("Location: login.php");
+//On garde le token dans notre session ou on redirige vers le site d'authentification
+if (isset($_GET['token'])) {
+    $token = $_GET['token'];
+    $reponse = file_get_contents("https://authks.page.gd/verif.php?token=" . $token);
+    if ($reponse === "TRUE") {
+        $_SESSION['user_token'] = $token;
+        header("Location: Stats.php"); 
+        exit();
+    } else {
+        header("Location: https://authks.page.gd/");
+    }
+}
+if (!isset($_SESSION['user_token'])) {
+    header("Location: https://authks.page.gd/");
     exit();
 }
 

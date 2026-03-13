@@ -1,14 +1,25 @@
 <?php
-session_start();
-require "database.php";
-require "Partie.php";
-$pdo = Database::getConnection();
-
-// redirection si non connecté
-if (!isset($_SESSION["email"])) {
-    header("Location: login.php");
-    exit();
-}
+    session_start();
+    require "database.php";
+    require "Partie.php";
+    $pdo = Database::getConnection(); 
+    
+    //On garde le token dans notre session ou on redirige vers le site d'authentification
+    if (isset($_GET['token'])) {
+        $token = $_GET['token'];
+        $reponse = file_get_contents("https://authks.page.gd/verif.php?token=" . $token);
+        if ($reponse === "TRUE") {
+            $_SESSION['user_token'] = $token;
+            header("Location: liste_match.php"); 
+            exit();
+        } else {
+            header("Location: https://authks.page.gd/");
+        }
+    }
+    if (!isset($_SESSION['user_token'])) {
+        header("Location: https://authks.page.gd/");
+        exit();
+    }
 
 Partie::setPdo($pdo);
 $matchs = Partie::getTousLesMatchs();
