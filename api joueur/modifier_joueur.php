@@ -34,7 +34,7 @@
         $data = json_decode(file_get_contents('php://input'), true);
         if (isset($_POST['action']) && $_POST['action'] === 'delete') {
         $joueur->delete();
-        http_response_code(2002);
+        http_response_code(202);
         header("Location: liste_joueur.php");
         echo json_encode(['message'=> 'Joueur supprimé avec succès']);
         exit();
