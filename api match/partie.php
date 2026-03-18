@@ -1,6 +1,6 @@
 <?php
     //Objet Match DTO
-    class Match{
+    class Partie{
         public static $pdo;
         public int $IdMatch;
         public string $DateMatch;

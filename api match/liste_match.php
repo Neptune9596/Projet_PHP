@@ -2,7 +2,7 @@
     session_start();
     require "database.php";
     require "Partie.php";
-    require "api match/match.php";
+    require "api match/partie.php";
     $pdo = Database::getConnection();
     $data = json_decode(file_get_contents('php://input'));
     // redirection si non connecté
