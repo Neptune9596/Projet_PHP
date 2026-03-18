@@ -17,7 +17,7 @@
     // convertir en DTO Match pour le transfert API/vue
     $matchDTOs = array_map(function($m)
     {
-        return new Match($m->getDate(), $m->getHeure(), $m->getNomAdv(), $m->getResultat(), $m->getLieu(), $m->getId());
+        return new Partie($m->getDate(), $m->getHeure(), $m->getNomAdv(), $m->getResultat(), $m->getLieu(), $m->getId());
     }, $matchs);
     // si le client demande du json , renvoyer API
     $accept = $_SERVER['HTTP_ACCEPT'] ?? '';
