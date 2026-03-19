@@ -19,17 +19,20 @@
         //Cette option permet d'envoyer les données de mail et mdp
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
 
-        $response = curl_exec($ch);
+        $reponse = curl_exec($ch);
+        curl_close($ch);
 
-        if($response === "Erreur") {
-            $erreurlogin = "Mauvais identifiants.";
-        } else {
-            $_SESSION['user_token'] = $response;
+        // On décode le JSON reçu
+        $resultat = json_decode($reponse, true);
+
+        // On vérifie le status_code défini par deliver_response
+        if($resultat['status_code'] === 200) {
+            $_SESSION['user_token'] = $resultat['data']; // Le token est dans 'data'
             header("Location: accueil.php");
             exit();
+        } else {
+            $erreurlogin = "Mauvais identifiants.";
         }
-
-        curl_close($ch);
     } else if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $erreurlogin = "Veuillez remplir tous les champs.";
     }

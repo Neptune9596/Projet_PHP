@@ -4,21 +4,23 @@
     $pdo = Database::getConnection();
     require "Joueur.php";
 
+    $token = $_GET['token'] ?? $_SESSION['user_token'] ?? null;
+
     //On garde le token dans notre session ou on redirige vers le site d'authentification
-    if (isset($_GET['token'])) {
+    if (!$token) {
         $token = $_GET['token'];
 
         $ch = curl_init("https://authks.page.gd/verif.php");
         curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $token"]); // On cache le token ici
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
+
         $reponse = curl_exec($ch);
         curl_close($ch);
 
-        if ($reponse === "TRUE") {
-            $_SESSION['user_token'] = $token;
-            header("Location: accueil.php"); 
-            exit();
+        $resultat = json_decode($reponse, true);
+
+        if ($resultat['status_code'] === 200) {
+             $_SESSION['user_token'] = $token;
         }else {
             unset($_SESSION['user_token']);
             header("Location: login.php");
