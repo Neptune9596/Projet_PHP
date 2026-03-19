@@ -20,7 +20,6 @@
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
 
         $reponse = curl_exec($ch);
-        curl_close($ch);
 
         // On décode le JSON reçu
         $resultat = json_decode($reponse, true);
@@ -33,6 +32,7 @@
         } else {
             $erreurlogin = "Mauvais identifiants.";
         }
+    curl_close($ch);
     }
     } else if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $erreurlogin = "Veuillez remplir tous les champs.";

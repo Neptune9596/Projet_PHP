@@ -6,12 +6,13 @@
 
     $token = $_GET['token'] ?? $_SESSION['user_token'] ?? null;
 
-    //On garde le token dans notre session ou on redirige vers le site d'authentification
     if (!$token) {
-        $token = $_GET['token'];
+        header("Location: login.php");
+        exit();
+    } else {
 
         $ch = curl_init("https://authks.page.gd/verif.php");
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $token"]); // On cache le token ici
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $token"]); 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $reponse = curl_exec($ch);
@@ -27,13 +28,6 @@
             exit();
         }
     }
-
-    //Si le token n'est pas dans la session, on redirige vers la page de login
-    if (!isset($_SESSION['user_token'])) {
-        header("Location: login.php");
-        exit();
-    }
-    
     Joueur::setPdo($pdo);
     $joueurs = Joueur::getTouslesJoueurs();
     
