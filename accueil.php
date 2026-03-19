@@ -13,11 +13,13 @@
             header("Location: accueil.php"); 
             exit();
         } else {
-            header("Location: https://authks.page.gd/");
+            unset($_SESSION['user_token']);
+            header("Location: login.php");
+            exit();
         }
     }
     if (!isset($_SESSION['user_token'])) {
-        header("Location: https://authks.page.gd/");
+        header("Location: login.php");
         exit();
     }
     
