@@ -24,7 +24,7 @@
 
         // On décode le JSON reçu
         $resultat = json_decode($reponse, true);
-
+    if (is_array($resultat) && isset($resultat['status_code'])) {
         // On vérifie le status_code défini par deliver_response
         if($resultat['status_code'] === 200) {
             $_SESSION['user_token'] = $resultat['data']; // Le token est dans 'data'
@@ -33,6 +33,7 @@
         } else {
             $erreurlogin = "Mauvais identifiants.";
         }
+    }
     } else if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $erreurlogin = "Veuillez remplir tous les champs.";
     }
