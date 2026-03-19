@@ -20,7 +20,7 @@
 
         $response = curl_exec($ch);
 
-        if(curl_errno($ch)) {
+        if($response === "Erreur") {
             $erreurlogin = "Mauvais identifiants.";
         } else {
             $_SESSION['user_token'] = $response;
