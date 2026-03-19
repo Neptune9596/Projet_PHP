@@ -7,17 +7,26 @@
     //On garde le token dans notre session ou on redirige vers le site d'authentification
     if (isset($_GET['token'])) {
         $token = $_GET['token'];
-        $reponse = file_get_contents("https://authks.page.gd/verif.php?token=" . $token);
+
+        $ch = curl_init("https://authks.page.gd/verif.php");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization: Bearer $token"]); // On cache le token ici
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    
+        $reponse = curl_exec($ch);
+        curl_close($ch);
+
         if ($reponse === "TRUE") {
             $_SESSION['user_token'] = $token;
             header("Location: accueil.php"); 
             exit();
-        } else {
+        }else {
             unset($_SESSION['user_token']);
             header("Location: login.php");
             exit();
         }
     }
+
+    //Si le token n'est pas dans la session, on redirige vers la page de login
     if (!isset($_SESSION['user_token'])) {
         header("Location: login.php");
         exit();
