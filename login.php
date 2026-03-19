@@ -21,6 +21,13 @@
 
         $reponse = curl_exec($ch);
 
+        echo "<h1>DEBUG REPONSE API</h1>";
+        echo "<pre>";
+        var_dump($reponse); 
+        echo "</pre>";
+        exit(); // Arrête tout pour qu'on puisse lire
+
+
         // On décode le JSON reçu
         $resultat = json_decode($reponse, true);
     if (is_array($resultat) && isset($resultat['status_code'])) {
