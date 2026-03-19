@@ -14,8 +14,9 @@
         ];
 
         $ch = curl_init($url);
+        //Permet de récupérer la réponse de l'API d'authentification
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
+        //Cette option permet d'envoyer les données de mail et mdp
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
 
         $response = curl_exec($ch);
