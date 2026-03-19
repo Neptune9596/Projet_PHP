@@ -25,6 +25,8 @@
             $erreurlogin = "Mauvais identifiants.";
         } else {
             $_SESSION['user_token'] = $response;
+            header("Location: accueil.php");
+            exit();
         }
 
         curl_close($ch);
