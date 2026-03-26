@@ -19,7 +19,6 @@
         
 
         $reponse = curl_exec($ch);
-        curl_close($ch);
 
         $resultat = json_decode($reponse, true);
 
@@ -30,6 +29,8 @@
             echo $resultat['status_code'];
             exit();
         }
+
+        curl_close($ch);
     }
     Joueur::setPdo($pdo);
     $joueurs = Joueur::getTouslesJoueurs();
