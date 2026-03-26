@@ -19,18 +19,15 @@
         
 
         $reponse = curl_exec($ch);
-        echo $reponse; // Si tu vois du code HTML avec "JavaScript" ou "Cookie", c'est le blocage InfinityFree.
-        exit();
-
         curl_close($ch);
-        
+
         $resultat = json_decode($reponse, true);
 
         if ($resultat['status_code'] === 200) {
              $_SESSION['user_token'] = $token;
         }else {
             unset($_SESSION['user_token']);
-            echo $token;
+            header("Location: login.php");
             exit();
         }
     }
