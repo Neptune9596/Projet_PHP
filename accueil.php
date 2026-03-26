@@ -24,7 +24,7 @@
              $_SESSION['user_token'] = $token;
         }else {
             unset($_SESSION['user_token']);
-            echo $token;
+            echo $resultat['status_code'];
             exit();
         }
     }
