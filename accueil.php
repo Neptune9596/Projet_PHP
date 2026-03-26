@@ -27,7 +27,7 @@
              $_SESSION['user_token'] = $token;
         }else {
             unset($_SESSION['user_token']);
-            header("Location: login.php");
+            echo $resultat['status_code'];
             exit();
         }
     }
