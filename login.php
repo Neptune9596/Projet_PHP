@@ -24,7 +24,7 @@
         // On décode le JSON reçu
         $resultat = json_decode($reponse, true);
     if (is_array($resultat) && isset($resultat['status_code'])) {
-        // On vérifie le status_code défini par deliver_response
+        // On vérifie le status_code défini par deliver_reponse
         if($resultat['status_code'] === 200) {
             $_SESSION['user_token'] = $resultat['data']; // Le token est dans 'data'
             header("Location: accueil.php");

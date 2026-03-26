@@ -4,7 +4,7 @@
     $pdo = Database::getConnection();
     require "Joueur.php";
 
-    $token = $_GET['token'] ?? $_SESSION['user_token'] ?? null;
+    $token = $_SESSION['user_token'] ?? null;
 
     if (!$token) {
         header("Location: login.php");
@@ -24,7 +24,7 @@
              $_SESSION['user_token'] = $token;
         }else {
             unset($_SESSION['user_token']);
-            header("Location: login.php");
+            echo "erreur";
             exit();
         }
     }
