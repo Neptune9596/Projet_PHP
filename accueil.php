@@ -16,9 +16,6 @@
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $reponse = curl_exec($ch);
-        
-
-        $reponse = curl_exec($ch);
 
         $resultat = json_decode($reponse, true);
 
