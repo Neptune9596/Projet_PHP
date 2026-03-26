@@ -3,6 +3,7 @@
     session_start();
     $email = $_POST['email'] ?? "";
     $mdp   = $_POST['mdp'] ?? "";
+    $role   = $_POST['role'] ?? "";
 
     $erreurlogin = "";
 
@@ -10,7 +11,8 @@
         $url = "https://authks.page.gd/connexion.php";
         $postData = [
             'email' => $email,
-            'mdp' => $mdp
+            'mdp' => $mdp,
+            'role' => $role
         ];
 
         $ch = curl_init($url);
@@ -67,6 +69,12 @@
             <input type="text" name="email">
             <label>Mot de passe :</label>
             <input type="password" name="mdp">
+            <select name="role" id="role-select">
+                <option value="Coach">Coach</option>
+                <option value="Entraîneurs">Entraîneurs</option>
+                <option value="Directeurs">Directeurs</option>
+                <option value="Arbitres">Arbitres</option>
+            </select>
             <input type="submit" value="Se connecter">
         </form>
     </div>
