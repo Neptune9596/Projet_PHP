@@ -16,8 +16,14 @@
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $reponse = curl_exec($ch);
-        curl_close($ch);
+        
 
+        $reponse = curl_exec($ch);
+        echo $reponse; // Si tu vois du code HTML avec "JavaScript" ou "Cookie", c'est le blocage InfinityFree.
+        exit();
+
+        curl_close($ch);
+        
         $resultat = json_decode($reponse, true);
 
         if ($resultat['status_code'] === 200) {
