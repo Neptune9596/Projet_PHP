@@ -17,6 +17,8 @@
 
         $reponse = curl_exec($ch);
 
+        echo $reponse;
+
         $resultat = json_decode($reponse, true);
 
         if ($resultat['status_code'] === 200) {
