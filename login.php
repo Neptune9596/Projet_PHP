@@ -22,7 +22,7 @@
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
 
         $reponse = curl_exec($ch);
-        var_dump($reponse);
+        
         // On décode le JSON reçu
         $resultat = json_decode($reponse, true);
     if (is_array($resultat) && isset($resultat['status_code'])) {
