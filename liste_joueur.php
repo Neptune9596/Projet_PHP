@@ -92,7 +92,7 @@
                 <a href="modifier_joueur.php?id_joueur=<?= $joueur->getId() ?>" class="btn-modif">Modifier/Supprimer</a>
             </td>
             <td>
-                <a href="Voir_commentaire.php?id_joueur=<?= $joueur->getId() ?>" class="btn-modif">Voir/Ajouter Commentaire(s)</a>
+                <a href="../Voir_commentaire.php?id=<?= $joueur->getId() ?>" class="btn-modif">Voir/Ajouter Commentaire(s)</a>
             </td>
       <?php endforeach; ?>
   <?php else: ?>
