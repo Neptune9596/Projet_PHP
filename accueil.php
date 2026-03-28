@@ -16,7 +16,6 @@
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $reponse = curl_exec($ch);
-        curl_close($ch);
 
         $resultat = json_decode($reponse, true);
 
@@ -24,9 +23,11 @@
              $_SESSION['user_token'] = $token;
         }else {
             unset($_SESSION['user_token']);
-            echo $token;
+            echo $resultat['status_code'];
             exit();
         }
+
+        curl_close($ch);
     }
     Joueur::setPdo($pdo);
     $joueurs = Joueur::getTouslesJoueurs();
